@@ -1,0 +1,93 @@
+/* Empty. Add your own CSS if you like */
+.user-button-long{
+	width: 80px;
+}
+
+.ps_slideBox{
+	width: 100%;
+	height: 200px;
+}
+
+.zt-home-content>div.scroll{
+  height:30%;
+  width: 100%;
+}
+.zt-home-slider{
+  height:100%;
+}
+.zt-home-slider>div.slider-pager{
+  bottom: 7px;
+}
+.zt-tabs>.tab-nav{
+  background: #FF6600;
+}
+
+ion-side-menu-content>ion-nav-bar>div.nav-bar-block>ion-header-bar{
+  background: #FF6600 !important;
+}
+.zt-comment-list,.zt-comment-list-a{
+  height:80px;
+}
+.zt-comment-list{
+  height:79px;
+  border-bottom: 1px #efeff4 solid;
+}
+div.zt-comment-list>a.zt-comment-list-a>img{
+  height:64px ;
+  width:64px;
+  border-radius: 50%;
+  border:1px solid #e5e5e5;
+}
+
+.zt-comment-favIcon{
+  color: #F5A623;
+  margin-right: 0.3rem;
+}
+.zt-pace-bgcolor{
+  background-color: #FF6600 !important;
+}
+zt-pace-fontcolor{
+  color: #FF6600 !important;
+}
+
+p.zt-comment-p{
+  /*width: 100%;*/
+  /*min-height: 22px;*/
+  /*max-height: 44px;*/
+  display: box;
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  white-space: normal;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: "Microsoft YaHei","PingFangSC-Semibold","Helvetica Neue","微軟正黑體","Helvetica Neue","Arial","sans-serif";
+  font-weight: 700;
+  word-wrap: break-word;
+  word-break: break-all;
+}
+
+span.zt-comment-location{
+  margin-left:12px ;
+}
+span.zt-comment-location>i{
+  color: #7C4E2F;
+}
+ion-tabs.tabs-color-active-positive .tab-item.tab-item-active, ion-tabs.tabs-color-active-positive .tab-item.active, ion-tabs.tabs-color-active-positive .tab-item.activated{
+  color: #7C4E2F;
+}
+
+div.zt-login-list>div.item-input-inset>label.item-input-wrapper>input,div.zt-register-list>div.item-input-inset>label.item-input-wrapper>input{
+  background: #fff;
+}
+div.zt-login-list>div.item-input-inset,div.zt-register-list>div.item-input-inset{
+  border:1px solid #e4e5e7;
+}
+
+.zt-login-icon,.zt-register-icon{
+  margin-right: 0.5rem;
+}
+.zt-login-label,.zt-register-label{
+  width:40%;
+}

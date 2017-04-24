@@ -1,0 +1,57 @@
+<ion-view view-title="登录">
+  <ion-header-bar>
+    <h1 class="title">Login</h1>
+    <div class="buttons">
+      <button class="button button-clear" ng-click="closeLogin()">Close</button>
+    </div>
+  </ion-header-bar>
+  <!--<ion-content>-->
+    <!--<form ng-submit="doLogin()">-->
+      <!--<div class="list">-->
+        <!--<label class="item item-input">-->
+          <!--<span class="input-label">Username</span>-->
+          <!--<input type="text" ng-model="loginData.username">-->
+        <!--</label>-->
+        <!--<label class="item item-input">-->
+          <!--<span class="input-label">Password</span>-->
+          <!--<input type="password" ng-model="loginData.password">-->
+        <!--</label>-->
+        <!--<label class="item">-->
+          <!--<button class="button button-block button-positive" type="submit">Log in</button>-->
+        <!--</label>-->
+      <!--</div>-->
+    <!--</form>-->
+  <!--</ion-content>-->
+  <ion-content ng-controller="loginCtrl">
+    <div class="content has-header">
+      <form ng-submit="onSubmit(myLogin.$valid)"  name="myLogin"  novalidate>
+        <div class="list zt-login-list">
+          <div class="item-input-inset">
+            <label class="item-input-wrapper item item-input">
+              <span class="input-label zt-login-label"><i class="nc-icon-outline users_mobile-contact zt-login-icon"></i>学号/工号</span>
+              <input type="text" name="userid" id="userid" ng-model="userid" placeholder="请输入账号/学号" required>
+              <div ng-show="myLogin.userid.$invalid && submitted">
+                <div style="color:red" ng-show="myLogin.user.$error.required">用户名是必须的</div>
+              </div>
+            </label>
+          </div>
+          <div class="item-input-inset">
+            <label class="item-input-wrapper item item-input">
+              <span class="input-label zt-login-label"><i class="nc-icon-outline objects_key-25 zt-login-icon"></i>密码</span>
+              <input type="password" name="password" ng-model="password" id="password" placeholder="请输入密码" required>
+              <div ng-show="myLogin.password.$invalid && submitted">
+                <div style="color:red" ng-show="myLogin.password.$error.required">密码是必须的</div>
+              </div>
+            </label>
+          </div>
+        </div>
+        <div class="padding">
+          <button class="button  button-block button-positive zt-pace-bgcolor" type="submit">登录</button>
+        </div>
+      </form>
+    </div>
+
+  </ion-content>
+
+
+</ion-view>
