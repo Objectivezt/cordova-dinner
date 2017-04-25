@@ -23,54 +23,54 @@
 
   <body  ng-controller="tabCtrl">
 
-<!-- 侧边菜单栏 ion-side-menus-->
-<!-- 一个ion-side-menus里面只能有两个ion-side-menu -->
-<ion-side-menus enable-menu-with-back-views="true">
-    <!-- 主体内容部分 -->
-    <ion-side-menu-content>
-        <ion-nav-bar class="bar-calm">
-              <ion-nav-buttons side="left">
-                    <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
-                    </button>
-              </ion-nav-buttons>
-							<!--<ion-nav-back-button class="button-clear">
-										<i class="ion-arrow-left-c"></i>
-							</ion-nav-back-button>-->
-							<ion-nav-buttons side="right">
-                <button class="button button-icon button-clear ion-android-more-vertical" id="menu-popover" ng-click="popover.show($event)"></button>
-              </ion-nav-buttons>
-        </ion-nav-bar>
-        <ion-nav-view name="index_nav_view"></ion-nav-view>
-    </ion-side-menu-content>
+    <!-- 侧边菜单栏 ion-side-menus-->
+    <!-- 一个ion-side-menus里面只能有两个ion-side-menu -->
+    <ion-side-menus enable-menu-with-back-views="true">
+        <!-- 主体内容部分 -->
+        <ion-side-menu-content>
+            <ion-nav-bar class="bar-calm">
+                  <ion-nav-buttons side="left">
+                        <button class="button button-icon button-clear ion-navicon" menu-toggle="left">
+                        </button>
+                  </ion-nav-buttons>
+                  <!--<ion-nav-back-button class="button-clear">
+                        <i class="ion-arrow-left-c"></i>
+                  </ion-nav-back-button>-->
+                  <ion-nav-buttons side="right">
+                    <button class="button button-icon button-clear ion-android-more-vertical" id="menu-popover" ng-click="popover.show($event)"></button>
+                  </ion-nav-buttons>
+            </ion-nav-bar>
+            <ion-nav-view name="index_nav_view"></ion-nav-view>
+        </ion-side-menu-content>
 
-    <ion-side-menu side="left" ng-controller="LeftCtrl">
-        <ion-header-bar class="expanded">
-            <img src="img/logo.png" class="avatar motion spin fade">
-            <div class="menu-bottom">
-                User by zhoutao app
-            </div>
-        </ion-header-bar>
-        <ion-content class="stable-bg has-expanded-header">
-            <ion-list>
-            		<ion-item menu-close ng-click="index()" ><!-- 首页 -->
-                  	首页
-                </ion-item>
-                <ion-item menu-close ng-click="register()" ><!-- href="#/login" -->
-                    用户注册
-                </ion-item>
-                <ion-item menu-close ng-click="login()" ><!-- href="#/login" -->
-                  	用户登录
-                </ion-item>
-                <ion-item menu-close ng-click="search()"><!-- href="#/search" -->
-                  	我的搜索
-                </ion-item>
-                <ion-item menu-close ng-click="about()"><!-- href="#/browse" -->
-                  	关于我们
-                </ion-item>
-            </ion-list>
-        </ion-content>
-    </ion-side-menu>
-</ion-side-menus>
+        <ion-side-menu side="left" ng-controller="LeftCtrl">
+            <ion-header-bar class="expanded">
+                <img src="img/logo.png" class="avatar motion spin fade">
+                <div class="menu-bottom">
+                    User by zhoutao app
+                </div>
+            </ion-header-bar>
+            <ion-content class="stable-bg has-expanded-header">
+                <ion-list>
+                    <ion-item menu-close ng-click="index()" ><!-- 首页 -->
+                        首页
+                    </ion-item>
+                    <ion-item menu-close ng-click="register()" ><!-- href="#/login" -->
+                        用户注册
+                    </ion-item>
+                    <ion-item menu-close ng-click="login()" ><!-- href="#/login" -->
+                        用户登录
+                    </ion-item>
+                    <ion-item menu-close ng-click="search()"><!-- href="#/search" -->
+                        我的搜索
+                    </ion-item>
+                    <ion-item menu-close ng-click="mess()"><!-- href="#/browse" -->
+                        食堂
+                    </ion-item>
+                </ion-list>
+            </ion-content>
+        </ion-side-menu>
+    </ion-side-menus>
 
 
 

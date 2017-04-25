@@ -1,10 +1,9 @@
 angular.module('ServiceModule',[])
 
- .service('order', function (getDetailData) {
+  .service('order', function (getDetailData) {
     var orderNames = ['广州', '深圳', '北京', '上海'];
     var order=[];
     return {
-
       initOrder: function () {
         if(order.length==0){
           if(localStorage.getItem('data')==null){//没有本地数据，用默认的
@@ -52,6 +51,7 @@ angular.module('ServiceModule',[])
       }//把数据保存到本地去
     };
   })//城市气象数据和相关方法
+
   .factory('cityCollection', function () {
     var cityCollection = [
       {

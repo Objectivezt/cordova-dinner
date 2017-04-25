@@ -126,14 +126,47 @@ angular.module('myApp', ['ionic','CtrlModule'])
     }
   })
 
-  .state('about', {
-      url: '/about',
+  .state('mess', {
+      url: '/mess',
       views: {
         'index_nav_view': {
-          templateUrl: 'templates/about.html'
+          templateUrl: 'templates/mess.html',
+          controller: 'messCtrl'
         }
       }
    })
+
+    .state('shop', {
+      url: '/shop',
+      views: {
+        'index_nav_view': {
+          templateUrl: 'templates/shop.html',
+          controller: 'shopCtrl'
+        }
+      }
+    })
+
+    .state('greens', {
+      url: '/greens',
+      views: {
+        'index_nav_view': {
+          templateUrl: 'templates/greens.html',
+          controller: 'greensCtrl'
+        }
+      }
+    })
+
+    .state('details', {
+      url: '/details',
+      views: {
+        'index_nav_view': {
+          templateUrl: 'templates/details.html',
+          controller: 'detailsCtrl'
+        }
+      }
+    })
+
+
 
   $urlRouterProvider.otherwise('/tab/homePage')
 });
