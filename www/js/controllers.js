@@ -33,28 +33,24 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     });
 })
 
-
-
-.controller('homePageCtrl',function($scope,$location){
+.controller('commentCtrl',function($scope,$location){
 
 })
-
-  .controller('commentCtrl',function($scope,$location){
+  .controller('settingCtrl',function($scope,$location){
 
   })
 
-
-.controller('CitiesCtrl',function($scope, Cities) {
-		console.log('CitiesCtrl')
-		$scope.Cities = Cities.initCities();
+.controller('orderCtrl',function($scope, order) {
+		console.log('orderCtrl')
+		$scope.order = order.initOrder();
 		$scope.remove = function(chat) {
-		    Cities.remove(chat);
-		    Cities.saveData();
+      order.remove(chat);
+      order.saveData();
 		};
 })
 
-.controller('weatherCtrl', function($scope,Cities,getWeatherData,$ionicSlideBoxDelegate,$http) {
-		console.log('weatherCtrl')
+.controller('detailCtrl', function($scope,order,getDetailData,$ionicSlideBoxDelegate,$http) {
+		console.log('detailCtrl')
 		var timeData=new Date();
 		var month=timeData.getMonth()+1;
 		var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
@@ -66,17 +62,17 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 		    $scope.currentDay.push(weekday[toweekday+8+i]);
 		}
 		$scope.$on('$ionicView.enter', function(e) {
-		    $scope.Cities=Cities.initCities();
+		    $scope.order=order.initOrder();
 		    $ionicSlideBoxDelegate.update();
 		});
 })
 
-.controller('tabsearchCtrl', function($scope,Cities,cityCollection,$ionicPopup) {
+.controller('tabsearchCtrl', function($scope,order,cityCollection,$ionicPopup) {
 		console.log(1)
 		$scope.collections=cityCollection.all();
 		$scope.add=function (city) {
-		    Cities.add(city);
-		    Cities.saveData();
+      order.add(city);
+      order.saveData();
 		};//添加并保存城市
 		$scope.search=function (city) {
 		    if(city==''||city==null)
@@ -125,7 +121,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 		              template:'城市不能为空！'
 		            })
 		          }else{
-		            if(!Cities.check($scope.chosenCity)){
+		            if(!order.check($scope.chosenCity)){
 		              $scope.add($scope.chosenCity);
 		              $ionicPopup.alert({
 		                title:'成功/success！',
@@ -149,7 +145,24 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 		};//城市展开函数
 
 })
+.controller('homePageCtrl',function($scope,$location){
+    $scope.index = function(){
+      $location.url('/tab/homepage')
+    };
+    $scope.register = function(){
+      $location.url('/register')
+    };
 
+    $scope.login = function(){
+      $location.url('/login')
+    };
+    $scope.search = function(){
+      $location.url('/search')
+    };
+    $scope.about = function(){
+      $location.url('/about')
+    };
+})
 .controller('LeftCtrl',function($scope,$location,$ionicHistory){
 //		console.log("you")
 		$scope.index = function(){
@@ -215,5 +228,8 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       }
     }
   }]);
+
+
+
 
 

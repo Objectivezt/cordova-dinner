@@ -45,22 +45,22 @@ angular.module('myApp', ['ionic','CtrlModule'])
     }
   })
 
-  .state('tab.Cities', {
-      url: '/Cities',
+  .state('tab.order', {
+      url: '/order',
       views: {
-        'tab-Cities': {
-          templateUrl: 'templates/tab-Cities.html',
-          controller: 'CitiesCtrl'
+        'tab-order': {
+          templateUrl: 'templates/tab-order.html',
+          controller: 'orderCtrl'
         }
       }
     })
 
-  .state('tab.weather', {
-    url: '/weather',
+  .state('tab.detail', {
+    url: '/detail',
     views: {
-      'tab-weather': {
-        templateUrl: 'templates/tab-weather.html',
-        controller: 'weatherCtrl'
+      'tab-detail': {
+        templateUrl: 'templates/tab-detail.html',
+        controller: 'detailCtrl'
       }
     }
   })
@@ -75,7 +75,15 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     }
   })
-
+    .state('tab.setting', {
+      url: '/setting',
+      views: {
+        'tab-setting': {
+          templateUrl: 'templates/tab-setting.html',
+          controller: 'settingCtrl'
+        }
+      }
+    })
   .state('tab.search', {
     url: '/tab-search',
     views: {
@@ -85,6 +93,7 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     }
   })
+
 
 
   .state('login',{
@@ -125,7 +134,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
         }
       }
    })
-
 
   $urlRouterProvider.otherwise('/tab/homePage')
 });

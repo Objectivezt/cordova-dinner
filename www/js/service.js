@@ -1,18 +1,18 @@
 angular.module('ServiceModule',[])
 
- .service('Cities', function (getWeatherData) {
-    var CitieNames = ['广州', '深圳', '北京', '上海'];
-    var Cities=[];
+ .service('order', function (getDetailData) {
+    var orderNames = ['广州', '深圳', '北京', '上海'];
+    var order=[];
     return {
 
-      initCities: function () {
-        if(Cities.length==0){
+      initOrder: function () {
+        if(order.length==0){
           if(localStorage.getItem('data')==null){//没有本地数据，用默认的
-            for(var j =0; j<CitieNames.length;j++){
-              this.add(CitieNames[j]);
+            for(var j =0; j<orderNames.length;j++){
+              this.add(orderNames[j]);
             }
-            localStorage.setItem('data',JSON.stringify(CitieNames));
-            return Cities;
+            localStorage.setItem('data',JSON.stringify(orderNames));
+            return order;
           }
           else{
 
@@ -20,12 +20,12 @@ angular.module('ServiceModule',[])
             for(var i =0;i< datalist.length;i++){
               this.add(datalist[i]);
             }
-            return Cities;
+            return order;
           }//初始化城市参数，检查本地有没有数据有就用，没有数据的话就用默认的
-        }else return Cities;//看看cities里面有没有数据，没有的话就新建，有就直接返回
+        }else return order;//看看order里面有没有数据，没有的话就新建，有就直接返回
       },
       remove: function (city) {
-        Cities.splice(Cities.indexOf(city), 1);
+        order.splice(order.indexOf(city), 1);
       },//删除城市
       add: function (name) {
         var newer = {
@@ -34,19 +34,19 @@ angular.module('ServiceModule',[])
           current:[]
         };
         newer.name = name;
-        newer.today=getWeatherData.getToday(name);
-        newer.current=getWeatherData.getCurrent(name);
-        Cities.push(newer);
+        newer.today=getDetailData.getToday(name);
+        newer.current=getDetailData.getCurrent(name);
+        order.push(newer);
       },//添加城市
       check: function (name) {
-        for (var i in Cities)
-          if (Cities[i].name == name)return true;
+        for (var i in order)
+          if (order[i].name == name)return true;
         return false;
       },//检测城市是否已经存在
       saveData:function () {
         var namelist=[];
-        for(var i in Cities){
-          namelist.push(Cities[i].name);
+        for(var i in order){
+          namelist.push(order[i].name);
         }
         localStorage.setItem('data',JSON.stringify(namelist));
       }//把数据保存到本地去
@@ -203,7 +203,7 @@ angular.module('ServiceModule',[])
       }
     };
   })//城市选择的数据
-  .factory('getWeatherData', function ($http, stringSearch) {
+  .factory('getDetailData', function ($http, stringSearch) {
     return{
       getToday:function (name) {
         var dataTemp={tem: 0, air: 0, wet: 0, ico: '',state:''};
@@ -213,9 +213,9 @@ angular.module('ServiceModule',[])
               .success(function (data) {
                 dataTemp.tem=Math.round(data.main.temp);
                 dataTemp.wet=data.main.humidity;
-                dataTemp.state=data.weather[0].description;
+                dataTemp.state=data.detail[0].description;
                 dataTemp.air=data.wind.speed;
-                dataTemp.ico=stringSearch.setIco(data.weather[0].id);
+                dataTemp.ico=stringSearch.setIco(data.detail[0].id);
             })
         }else{
             var string=stringSearch.searchString(name);
@@ -239,7 +239,7 @@ angular.module('ServiceModule',[])
             .success(function (data) {
               for(var i=1;i<=5;i++)
               {
-               var ico=stringSearch.setIco(data.list[i].weather[0].id)+'_low';
+               var ico=stringSearch.setIco(data.list[i].detail[0].id)+'_low';
                 currentTemp.push(ico)
               }
             })
@@ -489,4 +489,3 @@ angular.module('ServiceModule',[])
   }
 });//城市拼音数据
 
-  
