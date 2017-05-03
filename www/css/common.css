@@ -12,7 +12,7 @@ body{
   font-size:14px;
   line-height:1.6;
   /* background-color:#F6F6F6; */
-  background:url(../images/bg.gif) repeat;
+  /*background:url(../images/bg.gif) repeat;*/
   min-width:320px;
 }
 h1, h2, h3, h4, h5, h6 { font-size: 100%; }
@@ -70,10 +70,10 @@ button, input, select, textarea { font-size: 100%; } /* 使得表单元素在 ie
 }
 
 i,.cardelete{
-  background:url(../images/bg.png) no-repeat;
+  /*background:url(../images/bg.png) no-repeat;*/
 }
 .Recordname a,.structure a{
-  background:url(../images/brand_right.png) no-repeat right;
+  /*background:url(../images/brand_right.png) no-repeat right;*/
 }
 .plustext{
   padding:5px 0 0 5px;
@@ -307,29 +307,8 @@ i.alltype{
 }
 
 .bg1 s{
-  background:url(../images/sub_1.png) no-repeat;
+  /*background:url(../images/sub_1.png) no-repeat;*/
   width:49px;
-}
-
-.bg2 s{
-  background:url(../images/sub_2.png) no-repeat;
-  width:48px;
-}
-.bg3 s{
-  background:url(../images/sub_3.png) no-repeat;
-  width:59px;
-}
-.bg4 s{
-  background:url(../images/sub_4.png) no-repeat;
-  width:47px;
-}
-.bg5 s{
-  background:url(../images/sub_5.png) no-repeat;
-  width:48px;
-}
-.bg6 s{
-  background:url(../images/sub_6.png) no-repeat;
-  width:54px;
 }
 /* 栏目 END */
 
@@ -607,7 +586,7 @@ i.alltype{
 
 .moreshop .bgstyle{
   margin-top:3px;
-  background:url(../images/brand_right.png) no-repeat right center #fff;
+  /*background:url(../images/brand_right.png) no-repeat right center #fff;*/
 }
 .merchantlogo img{
   -webkit-border-radius: 50px;

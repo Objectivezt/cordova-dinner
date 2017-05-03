@@ -1,0 +1,49 @@
+<ion-view title="个人中心">
+  <ion-nav-title>个人中心</ion-nav-title>
+  <ion-content>
+
+    <div class="zt-changeAlartBingo" id="zt-changeAlartBingo">
+      <span class="zt-alert-box"><i class="nc-icon-glyph ui-1_check-bold"></i>修改成功</span>
+    </div>
+    <div class="zt-changeAlartError" id="zt-changeAlartError" style="display: none;">
+      <span class="zt-alert-box"><i class="nc-icon-glyph  ui-2_fat-remove"></i>修改失败</span>
+    </div>
+
+
+
+    <div class="zt-center-userinfo">
+      <div class="zt-center-avaterInfoFace">
+        <img class="zt-center-avaterFace" id="head-img" src="https://icebear-1-001.oss-cn-shenzhen.aliyuncs.com/uploads/head/2017-01-13/5878c7d05edf5.jpg">
+      </div>
+      <div class="zt-center-avaterInfo">
+        <p class="zt-center-username" id="ic-center-username">用户名:<span>{{settingFn[0].settingUser}}</span></p>
+        <p class="zt-center-userGrade">班级: <span>{{settingFn[0].settingClass}}</span></p>
+        <p class="zt-center-userCredit" id="ic-center-userCredit">我的余额:<span>{{settingFn[0].settingGrade}}</span></p>
+      </div>
+    </div>
+
+    <ul class="zt-center-msgul">
+      <li class="zt-center-msgli">
+        <a href="" class=" " ><i class="nc-icon-outline design_eraser-33 zt-setting-icon"></i>修改昵称</a>
+      </li>
+      <li class="zt-center-msgli">
+        <a href="" class=" " ><i class="nc-icon-outline objects_key-25 zt-setting-icon"></i>修改密码</a>
+      </li>
+      <li class="zt-center-msgli">
+        <a href="" class=" " ><i class="nc-icon-outline business_money-bag zt-setting-icon"></i>我要充值</a>
+      </li>
+      <li class="zt-center-msgli">
+        <a href="" class="" ><i class="nc-icon-outline business_books zt-setting-icon"></i>帮助与反馈</a>
+      </li>
+      <li class="zt-center-msgli">
+        <a href="" class="" ><i class="nc-icon-outline design_app zt-setting-icon"></i>关于应用</a>
+      </li>
+    </ul>
+
+    <ul class="zt-center-loginout zt-center-msgul">
+      <li class=" zt-center-msgli zt-center-logout" style="text-align: center;">
+        <a href="">退出登录</a>
+      </li>
+    </ul>
+  </ion-content>
+</ion-view>

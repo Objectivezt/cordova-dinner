@@ -16,9 +16,13 @@
       </ion-slide>
     </ion-slide-box>
 
+    <div>
+
+    </div>
     <section>
       <div class="zt-details-title">
-        <h1>【老四川 五香卤汁牛肉228g】重庆特产牛肉干零食小吃中华老字号</h1>
+        <!--<h1>【老四川 五香卤汁牛肉228g】重庆特产牛肉干零食小吃中华老字号</h1>-->
+        <h1>{{greenDetailsFn[0].greensDetailsName}}</h1>
       </div>
       <div class="sub">
         <div class="slogon"></div>
@@ -30,18 +34,16 @@
         <span class="mui-price big">
           <em class="happy1111title">价格</em>
           <i class="mui-price-rmb">¥</i>
-          <span class="mui-price-integer">43.00</span>
+          <span class="mui-price-integer">{{greenDetailsFn[0].greensDetailsPrice}}</span>
           <span class="mui-price-decimal"></span>
          </span>
       </div>
-      <!--<div class="item">-->
-        <!--<span class="ui-price-wrap del">-->
-          <!--<label class="ui-label">专柜价:</label><del class="price-origin">¥96.00</del>-->
-        <!--</span>-->
-      <!--</div>-->
       <div class="item" style="white-space: inherit">
+        <!--<span class="ui-price-wrap del">-->
+          <!--菜品描述：鱼香肉丝（英文名：Stir-fried Pork Strips in Fish Sauce）是一道特色传统名菜，以鱼香调味而得名，属川菜。相传灵感来自老菜泡椒肉丝，民国年间由四川籍厨师创制而成。主料为猪肉、黑木耳，辅料因做法而各异，但多为胡萝卜、竹笋、辣椒等...-->
+        <!--</span>-->
         <span class="ui-price-wrap del">
-          菜品描述：鱼香肉丝（英文名：Stir-fried Pork Strips in Fish Sauce）是一道特色传统名菜，以鱼香调味而得名，属川菜。相传灵感来自老菜泡椒肉丝，民国年间由四川籍厨师创制而成。主料为猪肉、黑木耳，辅料因做法而各异，但多为胡萝卜、竹笋、辣椒等...
+          {{greenDetailsFn[0].greensDetailsDescription}}
         </span>
       </div>
     </section>

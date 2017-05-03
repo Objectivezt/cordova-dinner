@@ -1,13 +1,4 @@
 /* Empty. Add your own CSS if you like */
-.user-button-long{
-	width: 80px;
-}
-
-.ps_slideBox{
-	width: 100%;
-	height: 200px;
-}
-
 .zt-home-content>div.scroll{
   height:30%;
   width: 100%;
@@ -15,6 +6,11 @@
 .zt-home-slider{
   height:100%;
 }
+ion-slide-box.zt-home-slider ion-slide div.box>a>img{
+  height: 100px;
+  width:100%;
+}
+
 .zt-home-slider>div.slider-pager{
   bottom: 7px;
 }
@@ -89,7 +85,7 @@ div.zt-login-list>div.item-input-inset,div.zt-register-list>div.item-input-inset
   margin-right: 0.5rem;
 }
 .zt-login-label,.zt-register-label{
-  width:40%;
+  width:30%;
 }
 
 .mui-table-view-cell>a:not(.mui-btn) {
@@ -103,35 +99,36 @@ div.zt-login-list>div.item-input-inset,div.zt-register-list>div.item-input-inset
   color: inherit;
 }
 
-div.ic-center-userinfo{
+div.zt-center-userinfo{
   margin:34px 0 38px 30px;height:70px
 }
-img.ic-center-avaterFace {
+img.zt-center-avaterFace {
   width: 70px;
   height: 70px;
   border-radius: 50%;
   box-shadow: 0 0 2px #b0b0b0
 }
 
-div.ic-center-avaterInfoFace {
+div.zt-center-avaterInfoFace {
   float: left;
   margin-right: 30px;
   width: 70px;
   height: 70px
 }
 
-div.ic-center-avaterInfo {
+div.zt-center-avaterInfo {
   float: left;
   width: 115px;
   height: 70px
 }
 
-div.ic-center-avaterInfo>p {
+div.zt-center-avaterInfo>p {
   margin-bottom: 2px;
-  height: 23.33px
+  height: 23.33px;
+  width:165px;
 }
 
-a.ic-daysignin {
+a.zt-daysignin {
   position: relative
 }
 .zt-center-msgul{
@@ -209,4 +206,53 @@ ul>li.zt-center-logout>a{
   width:100%;
   height:100%;
   list-style:none;
+  background: #FF6600;
+  color:#fff;
+}
+.user-button-long{
+  width: 80px;
+}
+.ps_slideBox{
+   width: 100%;
+   height: 140px;
+ }
+span.zt-hotGreens-list{
+  height:50px !important;
+}
+span.zt-hotGreens-list>img{
+  height:50px;
+  width:100%;
+}
+div.zt-alert-red{
+  color:red;
+}
+
+div.zt-register-alert{
+   color: #761c19;
+   width:100%;
+   height: 30px;
+   line-height: 30px;
+   margin-top:30px;
+   margin-left: 25px;
+ }
+
+
+div.zt-changeAlartBingo, div.zt-changeAlartError {
+  position: absolute;
+  top: 114px;
+  z-index: 10;
+   display: none;
+  width: 100%;
+  height: 40px;
+  color: #FFF;
+  text-align: center;
+  letter-spacing: 0;
+  font-size: 16px;
+  line-height: 40px;
+}
+.zt-alert-box {
+  margin: 0 auto;
+  padding: 9px 23px;
+  border-radius: 100px;
+  background: #482929;
 }

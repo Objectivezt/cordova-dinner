@@ -1,46 +1,13 @@
-<ion-view view-title="菜品列表">
-  <ion-nav-title>greenslist</ion-nav-title>
-  <ion-content ng-controller="messCtrl">
-    <div class="list zt-greens-list">
-      <a class="item item-thumbnail-left zt-greens-lista" href="#/details">
-        <img src="img/banner1.jpg">
-        <h2>鱼香肉丝</h2>
-        <p>鱼香肉丝（英文名：Stir-fried Pork Strips in Fish Sauce）是一道特色传统名菜，以鱼香调味而得名，属川菜。相传灵感来自老菜泡椒肉丝，民国年间由四川籍厨师创制而成。主料为猪肉、黑木耳，辅料因做法而各异，但多为胡萝卜、竹笋、辣椒等...</p>
-        <p>价格：<span>18</span></p>
+<ion-view view-title="菜品列表" cache-view="false">
+  <ion-nav-title>菜品列表</ion-nav-title>
+  <ion-content>
+    <div class="list zt-greens-list" ng-repeat="data in greensFn">
+      <a class="item item-thumbnail-left zt-greens-lista" href="{{data.greensHref}}">
+        <img src="{{data.greensImg}}" alt="">
+        <h2>{{data.greensName}}</h2>
+        <p>{{data.greensDescription}}</p>
+        <p>价格：<span>{{data.greensPrice}}</span></p>
       </a>
     </div>
-    <div class="list zt-greens-list">
-      <a class="item item-thumbnail-left zt-greens-lista" href="#/details">
-        <img src="img/banner1.jpg">
-        <h2>鱼香肉丝</h2>
-        <p>鱼香肉丝（英文名：Stir-fried Pork Strips in Fish Sauce）是一道特色传统名菜，以鱼香调味而得名，属川菜。相传灵感来自老菜泡椒肉丝，民国年间由四川籍厨师创制而成。主料为猪肉、黑木耳，辅料因做法而各异，但多为胡萝卜、竹笋、辣椒等...</p>
-        <p>价格：<span>18</span></p>
-      </a>
-    </div>
-    <div class="list zt-greens-list">
-      <a class="item item-thumbnail-left zt-greens-lista" href="#/details">
-        <img src="img/banner4.jpg">
-        <h2>鱼香肉丝</h2>
-        <p>鱼香肉丝（英文名：Stir-fried Pork Strips in Fish Sauce）是一道特色传统名菜，以鱼香调味而得名，属川菜。相传灵感来自老菜泡椒肉丝，民国年间由四川籍厨师创制而成。主料为猪肉、黑木耳，辅料因做法而各异，但多为胡萝卜、竹笋、辣椒等...</p>
-        <p>价格：<span>18</span></p>
-      </a>
-    </div>
-    <div class="list zt-greens-list">
-      <a class="item item-thumbnail-left zt-greens-lista" href="#/details">
-        <img src="img/banner2.jpg">
-        <h2>鱼香肉丝</h2>
-        <p>鱼香肉丝（英文名：Stir-fried Pork Strips in Fish Sauce）是一道特色传统名菜，以鱼香调味而得名，属川菜。相传灵感来自老菜泡椒肉丝，民国年间由四川籍厨师创制而成。主料为猪肉、黑木耳，辅料因做法而各异，但多为胡萝卜、竹笋、辣椒等...</p>
-        <p>价格：<span>18</span></p>
-      </a>
-    </div>
-    <div class="list zt-greens-list">
-      <a class="item item-thumbnail-left zt-greens-lista" href="#/details">
-        <img src="img/banner3.jpg">
-        <h2>鱼香肉丝</h2>
-        <p>鱼香肉丝（英文名：Stir-fried Pork Strips in Fish Sauce）是一道特色传统名菜，以鱼香调味而得名，属川菜。相传灵感来自老菜泡椒肉丝，民国年间由四川籍厨师创制而成。主料为猪肉、黑木耳，辅料因做法而各异，但多为胡萝卜、竹笋、辣椒等...</p>
-        <p>价格：<span>18</span></p>
-      </a>
-    </div>
-
   </ion-content>
 </ion-view>

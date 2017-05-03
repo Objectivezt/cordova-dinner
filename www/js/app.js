@@ -1,5 +1,5 @@
 angular.module('myApp', ['ionic','CtrlModule'])
-.run(function($ionicPlatform) {
+.run(function($rootScope,$ionicPlatform,$templateCache) {
   $ionicPlatform.ready(function() {
     if (window.cordova && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -7,6 +7,11 @@ angular.module('myApp', ['ionic','CtrlModule'])
     }
     if (window.StatusBar) {
       StatusBar.styleDefault();
+    }
+  });
+  $rootScope.$on('$routeChangeStart', function(event, next, current) {
+    if (typeof(current) !== 'undefined'){
+      $templateCache.remove(current.templateUrl);
     }
   });
 })
@@ -23,7 +28,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
     $ionicConfigProvider.platform.android.backButton.previousTitleText(' ').icon('ion-android-arrow-back');
     $ionicConfigProvider.platform.ios.views.transition('ios');
     $ionicConfigProvider.platform.android.views.transition('android');
-
   $stateProvider
    .state('tab', {
     url: '/tab',
@@ -45,15 +49,39 @@ angular.module('myApp', ['ionic','CtrlModule'])
     }
   })
 
-  .state('tab.order', {
+  // .state('tab.order', {
+  //     url: '/order',
+  //     views: {
+  //       'tab-order': {
+  //         templateUrl: 'templates/tab-order.html',
+  //         controller: 'orderCtrl'
+  //       }
+  //     }
+  //   })
+    .state('tab.order', {
+      cache: false,
       url: '/order',
       views: {
         'tab-order': {
-          templateUrl: 'templates/tab-order.html',
-          controller: 'orderCtrl'
+          templateUrl: 'templates/mess.html',
+          controller: 'messCtrl'
         }
       }
     })
+    // .state('mess', {
+    //   cache: false,
+    //   url: '/mess',
+    //   views: {
+    //     'index_nav_view': {
+    //       templateUrl: 'templates/mess.html',
+    //       controller: 'messCtrl'
+    //     }
+    //   }
+    // })
+
+
+
+
 
   .state('tab.detail', {
     url: '/detail',
@@ -84,15 +112,15 @@ angular.module('myApp', ['ionic','CtrlModule'])
         }
       }
     })
-  .state('tab.search', {
-    url: '/tab-search',
-    views: {
-      'tab-search': {
-        templateUrl: 'templates/tab-search.html',
-        controller: 'tabsearchCtrl'
-      }
-    }
-  })
+  // .state('tab.search', {
+  //   url: '/tab-search',
+  //   views: {
+  //     'tab-search': {
+  //       templateUrl: 'templates/search.html',
+  //       controller: 'searchCtrl'
+  //     }
+  //   }
+  // })
 
 
 
@@ -121,23 +149,26 @@ angular.module('myApp', ['ionic','CtrlModule'])
     url: '/search',
     views: {
       'index_nav_view': {
-        templateUrl: 'templates/search.html'
+        templateUrl: 'templates/search.html',
+        controller: 'searchCtrl'
       }
     }
   })
 
-  .state('mess', {
-      url: '/mess',
-      views: {
-        'index_nav_view': {
-          templateUrl: 'templates/mess.html',
-          controller: 'messCtrl'
-        }
-      }
-   })
+  // .state('mess', {
+  //     cache: false,
+  //     url: '/mess',
+  //     views: {
+  //       'index_nav_view': {
+  //         templateUrl: 'templates/mess.html',
+  //         controller: 'messCtrl'
+  //       }
+  //     }
+  //  })
 
     .state('shop', {
-      url: '/shop',
+      cache: false,
+      url: '/shop/:id',
       views: {
         'index_nav_view': {
           templateUrl: 'templates/shop.html',
@@ -146,18 +177,27 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     })
 
+    // .state('AnalysisDetails',{
+    //   url:'/AnalysisDetails/:id',
+    //   cache: false,
+    //   templateUrl:'template/AnalysisDetails.html',
+    //   controller:'AnalysisDetailsCtrl'
+    // })
+
+
     .state('greens', {
-      url: '/greens',
+      url: '/greens/:id',
       views: {
         'index_nav_view': {
           templateUrl: 'templates/greens.html',
+          cache: false,
           controller: 'greensCtrl'
         }
       }
     })
 
     .state('details', {
-      url: '/details',
+      url: '/details/:id',
       views: {
         'index_nav_view': {
           templateUrl: 'templates/details.html',
@@ -165,8 +205,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
         }
       }
     })
-
-
-
+  $ionicConfigProvider.views.maxCache(0);
   $urlRouterProvider.otherwise('/tab/homePage')
 });

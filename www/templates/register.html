@@ -1,66 +1,87 @@
 <ion-view view-title="注册">
 
-  <ion-content ng-controller="registerCtrl">
+  <ion-content>
+
+    <div class="zt-changeAlartBingo" id="zt-changeAlartBingo" ng-show="regisoterBingo">
+      <span class="zt-alert-box"><i class="nc-icon-glyph ui-1_check-bold"></i>注册成功</span>
+    </div>
+    <div class="zt-changeAlartError" id="zt-changeAlartError" ng-show="regisoterError">
+      <span class="zt-alert-box"><i class="nc-icon-glyph  ui-2_fat-remove"></i>注册失败</span>
+    </div>
+
+
+
     <div class="content has-header">
       <form ng-submit="onSubmit(myRegister.$valid)"  name="myRegister"  novalidate>
         <div class="list zt-register-list">
 
-          <div class="item-input-inset">
-            <label class="item-input-wrapper item item-input">
-              <span class="input-label zt-login-label"><i class="nc-icon-glyph media-1_polaroid-user zt-login-icon"></i>用户名</span>
-              <input type="text" name="username" id="username" ng-model="username" placeholder="请输入用户名" required>
+            <div class="item-input-inset">
+              <label class="item-input-wrapper item item-input">
+                <span class="input-label zt-login-label"><i class="nc-icon-glyph media-1_polaroid-user zt-login-icon"></i>用户名</span>
+                <input type="text" name="username" id="username" ng-model="username"  ng-minlength="6" ng-maxlength="16" placeholder="请输入6-16位的数字字母中文组成的用户名" required ng-pattern="/^[\u4E00-\u9FA5A-Za-z0-9]+$/">
+              </label>
               <div ng-show="myRegister.username.$invalid && submitted">
-                <div style="color:red" ng-show="myRegister.username.$error.required">用户名是必须的</div>
+                <div class="zt-alert-red" ng-show="myRegister.username.$error.required">用户名不能为空</div>
+                <div class="zt-alert-red" ng-show="myRegister.username.$error.pattern">用户名格式错误</div>
+                <div class="zt-alert-red" ng-show="(myRegister.username.$error.minlength || myRegister.username.$error.maxlength) && myRegister.username.$touched">用户名格式错误</div>
               </div>
-            </label>
-          </div>
+            </div>
 
-          <div class="item-input-inset">
-            <label class="item-input-wrapper item item-input">
-              <span class="input-label zt-login-label"><i class="nc-icon-outline ui-2_grid-49 zt-login-icon"></i>学号/工号</span>
-              <input type="text" name="stuid" id="stuid" ng-model="stuid" placeholder="请输入学号" required>
+            <div class="item-input-inset">
+              <label class="item-input-wrapper item item-input">
+                <span class="input-label zt-login-label"><i class="nc-icon-outline ui-2_grid-49 zt-login-icon"></i>学号/工号</span>
+                <input type="text" name="stuid" id="stuid" ng-model="stuid"  ng-required="true" ng-minlength="14" ng-maxlength="17" placeholder="请输入14-17位的学号" required ng-pattern="/^[0-9]*$/">
+              </label>
               <div ng-show="myRegister.stuid.$invalid && submitted">
-                <div style="color:red" ng-show="myRegister.stuid.$error.required">学号是必须的</div>
+                <div class="zt-alert-red" ng-show="myRegister.stuid.$error.required">学号不能为空</div>
+                <div class="zt-alert-red" ng-show="myRegister.stuid.$error.pattern">学号不能是非数字</div>
+                <div class="zt-alert-red" ng-show="(myRegister.stuid.$error.minlength || myRegister.stuid.$error.maxlength) && myRegister.stuid.$touched">学号长度错误</div>
               </div>
-            </label>
-          </div>
+            </div>
 
-          <div class="item-input-inset">
-            <label class="item-input-wrapper item item-input">
-              <span class="input-label zt-login-label"><i class="nc-icon-glyph ui-2_grid-48 zt-login-icon"></i>班级号</span>
-              <input type="text" name="classid" id="classid" ng-model="classid" placeholder="请输入班级号" required>
+            <div class="item-input-inset">
+              <label class="item-input-wrapper item item-input">
+                <span class="input-label zt-login-label"><i class="nc-icon-glyph ui-2_grid-48 zt-login-icon"></i>班级号</span>
+                <input type="text" name="classid" id="classid" ng-model="classid" placeholder="请输入10位的班级号" ng-minlength="10" ng-maxlength="10" required ng-pattern="/^[0-9]*$/">
+              </label>
               <div ng-show="myRegister.classid.$invalid && submitted">
-                <div style="color:red" ng-show="myRegister.classid.$error.required">班级是必须的</div>
-              </div>
-            </label>
-          </div>
+                <div class="zt-alert-red" ng-show="myRegister.classid.$error.required">班级号不能为空</div>
+                <div class="zt-alert-red" ng-show="myRegister.classid.$error.pattern">班级号不能是非数字</div>
+                <div class="zt-alert-red" ng-show="(myRegister.classid.$error.minlength || myRegister.classid.$error.maxlength) && myRegister.classid.$touched">班级号长度错误</div>
 
-          <div class="item-input-inset">
-            <label class="item-input-wrapper item item-input">
-              <span class="input-label zt-login-label"><i class="nc-icon-outline objects_key-26 zt-login-icon"></i>密码</span>
-              <input type="text" name="pwd" id="pwd" ng-model="pwd" placeholder="请输入密码" required>
+              </div>
+            </div>
+
+            <div class="item-input-inset">
+              <label class="item-input-wrapper item item-input">
+                <span class="input-label zt-login-label"><i class="nc-icon-outline objects_key-26 zt-login-icon"></i>密码</span>
+                <input type="password" name="pwd" id="pwd" ng-model="pwd" placeholder="请输入由数字、26个英文字母或组成6-16位的密码" required ng-minlength="6" ng-maxlength="16" ng-pattern="/^[A-Za-z0-9]+$/">
+              </label>
               <div ng-show="myRegister.pwd.$invalid && submitted">
-                <div style="color:red" ng-show="myRegister.pwd.$error.required">密码</div>
+                <div class="zt-alert-red" ng-show="myRegister.pwd.$error.required">密码不能为空</div>
+                <div class="zt-alert-red" ng-show="myRegister.pwd.$error.pattern">密码格式不正确</div>
+                <div class="zt-alert-red" ng-show="(myRegister.pwd.$error.minlength || myRegister.pwd.$error.maxlength) && myRegister.classid.$touched">密码长度错误</div>
               </div>
-            </label>
-          </div>
+            </div>
 
-          <div class="item-input-inset">
-            <label class="item-input-wrapper item item-input">
-              <span class="input-label zt-login-label"><i class="nc-icon-glyph objects_key-26 zt-login-icon"></i>确认密码</span>
-              <input type="text" name="rpwd" id="rpwd" ng-model="rpwd" placeholder="请输入确认密码" required>
+            <div class="item-input-inset">
+              <label class="item-input-wrapper item item-input">
+                <span class="input-label zt-login-label"><i class="nc-icon-glyph objects_key-26 zt-login-icon"></i>确认密码</span>
+                <input type="password" name="rpwd" id="rpwd" ng-model="rpwd" placeholder="请输入确认密码" required pwd-repeat>
+              </label>
               <div ng-show="myRegister.rpwd.$invalid && submitted">
-                <div style="color:red" ng-show="myRegister.rpwd.$error.required">确认密码</div>
+                <div class="zt-alert-red" ng-show="myRegister.rpwd.$error.required">密码不能为空</div>
+                <div class="zt-alert-red" ng-show="myRegister.rpwd.$error.pwdRepeat && myRegister.rpwd.$touched">两次输入的密码不相同。</div>
               </div>
-            </label>
-          </div>
-
+            </div>
+            </div>
           <div class="padding">
             <button class="button  button-block button-positive zt-pace-bgcolor" type="submit">注册</button>
           </div>
-        </div>
+
       </form>
     </div>
 
+    <div class="zt-register-alert" ng-show="registerStaute">该学号已经被注册</div>
   </ion-content>
 </ion-view>

@@ -1,0 +1,41 @@
+<ion-view view-title="我的订单">
+  <ion-content class="padding">
+    <ion-slide-box show-pager="false" ng-if="order">
+      <ion-slide ng-repeat="city in order ">
+        <div class="item item-image" style="padding: 50px;background-color: rgb(47,46,47);">
+          <h2 class="tem ion-thermometer" style="color: #fff;font-size:48px;"> {{city.today.tem}}℃</h2>
+          <img src="img\{{city.today.ico}}.png">
+          <h3 class="tem " style="color: #fff;font-size:28px;">{{city.name}}</h3>
+          <h2 class="text-center" style="color: #fff;font-size:18px;">{{city.today.state}}</h2>
+        </div>
+        <div class="item item-body">
+          <p  class="text-center" style="font-size:14px;">{{today}}</p>
+          <p class="ion-waterdrop"> 湿度：{{city.today.wet}} %</p>
+          <p class="ion-flag"> 风速：{{city.today.air}} 米/秒</p>
+        </div>
+        <div class=" item item-image" style="padding: 10px 0 10px 15px;">
+          <div style="float: left; width: 60px; margin-left: 4px;">
+            <p>{{currentDay[0]}}</p>
+            <div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[0]}}.png" alt=""></div>
+          </div>
+          <div style="float: left; width: 60px;">
+            <p>{{currentDay[1]}}</p>
+            <div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[1]}}.png" alt=""></div>
+          </div>
+          <div style="float: left; width: 60px;">
+            <p>{{currentDay[2]}}</p>
+            <div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[2]}}.png" alt=""></div>
+          </div>
+          <div style="float: left; width: 60px;">
+            <p>{{currentDay[3]}}</p>
+            <div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[3]}}.png" alt=""></div>
+          </div>
+          <div style="float: left; width: 60px;">
+            <p>{{currentDay[4]}}</p>
+            <div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[4]}}.png" alt='' /></div>
+          </div>
+        </div>
+      </ion-slide>
+    </ion-slide-box>
+  </ion-content>
+</ion-view>

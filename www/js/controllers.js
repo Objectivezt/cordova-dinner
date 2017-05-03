@@ -7,7 +7,6 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     $scope.register = function(){
       $location.url('/register')
     };
-
     $scope.login = function(){
       $location.url('/login')
     };
@@ -33,10 +32,10 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       // .fromTemplate() method
       var template = '<ion-popover-view>' +
                       '   <ion-header-bar>' +
-                      '       <h1 class="title">天气小贴士</h1>' +
+                      '       <h1 class="title">温馨提示</h1>' +
                       '   </ion-header-bar>' +
                       '   <ion-content class="padding">' +
-                      '       我和微笑天气有一个约会' +
+                      '       五一期间今天食堂正常营业' +
                       '   </ion-content>' +
                       '</ion-popover-view>';
 
@@ -56,7 +55,8 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
   })
 
-  .controller('settingCtrl',function($scope,$location){
+  .controller('settingCtrl',function($scope,setting){
+      $scope.settingFn = setting.settingInit();
 
     })
 
@@ -87,8 +87,8 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       });
   })
 
-  .controller('tabsearchCtrl', function($scope,order,cityCollection,$ionicPopup) {
-      console.log(1)
+  .controller('searchCtrl', function($scope,order,cityCollection,$ionicPopup) {
+      console.log(1);
       $scope.collections=cityCollection.all();
       $scope.add=function (city) {
         order.add(city);
@@ -166,42 +166,40 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
   })
 
-  .controller('homePageCtrl',function($scope,$location){
-      $scope.index = function(){
-        $location.url('/tab/homepage')
-      };
-      $scope.register = function(){
-        $location.url('/register')
-      };
-      $scope.login = function(){
-        $location.url('/login')
-      };
-      $scope.search = function(){
-        $location.url('/search')
-      };
-      $scope.mess = function(){
-        $location.url('/mess')
-      };
-  })
-
   .controller('registerCtrl',['$scope', '$http', function($scope,$http, $ionicModal, $timeout,$location) {
+      $scope.registerStaute = false;
+      $scope.regisoterBingo = false;
+      $scope.regisoterError = false;
       $scope.submitted = false;
       $scope.onSubmit = function () {
         if ($scope.myRegister.$valid){
           var param = {
-            Username:  $scope.username,
-            Stuid: $scope.stuid,
-            Classid: $scope.classid,
-            Pwd: $scope.pwd,
-            rPwd: $scope.rpwd
-          }
-          $http.post('someurl',param)
-            .success(function(data){
-              console.log(':)');
-            })
-            .error(function(data){
-              console.log(':(');
-            });
+                          Username:  $scope.username,
+                          Stuid: $scope.stuid,
+                          Classid: $scope.classid,
+                          Pwd: $scope.pwd,
+                          rPwd: $scope.rpwd
+                      };
+          $http({
+            method:'POST',
+            url:'http://localhost:8197/insertUserinfo',
+            headers:{
+              'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:param
+          }).then(function success(res) {
+              console.log('ok');
+              console.log(param);
+              console.log(res)
+              if(res.data.registerStatus== 'error'){
+                $scope.registerStaute = true;
+              }else{
+                $scope.regisoterBingo = true
+              }
+          },function (err) {
+            console.log(err);
+            $scope.regisoterError = true;
+          })
         }else{
           $scope.submitted = true;
         }
@@ -210,20 +208,36 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
   .controller('loginCtrl',['$scope', '$http', function($scope, $http, $ionicModal, $timeout,$location){
       // $scope.formModel = {};
+      $scope.loginBingo = false;
+      $scope.loginError = false;
       $scope.submitted = false;
       $scope.onSubmit = function(){
         if ($scope.myLogin.$valid) {
           var param = {
-            User: $scope.userid,
+            Stuid: $scope.userid,
             Pwd: $scope.password
-          }
-          $http.post('someurl',param)
-            .success(function(data){
-              console.log(':)');
-            })
-            .error(function(data){
-              console.log(':(');
-            });
+          };
+          $http({
+            method:'POST',
+            url:'http://localhost:8197/selectUserinfo',
+            headers:{
+              'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:param
+          }).then(function success(res) {
+            console.log('ok');
+            console.log(res)
+            if(res.data.loginStatus == 'error'){
+              // $scope.registerStaute = true;
+             $scope.loginError = true;
+              console.log('login error')
+            }else{
+              console.log('login bingo');
+              $scope.loginBingo = true;
+            }
+          },function (err) {
+            console.log(err);
+          });
 
           console.log(param);
         }else{
@@ -232,28 +246,178 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       }
     }])
 
-  .controller('messCtrl',function($scope,$location){
+  .controller('homePageCtrl',function($scope,$location,homePage){
+    $scope.index = function(){
+      $location.url('/tab/homepage')
+    };
+    $scope.register = function(){
+      $location.url('/register')
+    };
+    $scope.login = function(){
+      $location.url('/login')
+    };
+    $scope.search = function(){
+      $location.url('/search')
+    };
     $scope.mess = function(){
       $location.url('/mess')
     };
+
+    $scope.homePageFn = homePage.homePageInit();
+    console.log(homePage)
+
   })
 
-  .controller('shopCtrl',function($scope,$location){
-    $scope.shop = function(){
-      $location.url('/shop')
+  .controller('messCtrl',function($scope,$location,mess){
+    $scope.mess = function(){
+      //$location.url('/mess')
     };
+    $scope.messFn = mess.messInit();
+    console.log(mess)
   })
 
-  .controller('greensCtrl',function($scope,$location){
-    $scope.greens = function(){
-      $location.url('/greens')
+  .controller('shopCtrl',['$http','$scope','$rootScope','$location','$ionicPopup','$ionicHistory','$stateParams','shop',function($http,$scope,$rootScope,$location,$ionicPopup,$ionicHistory,$stateParams,shop){
+    $rootScope.showHeader = false;
+    //获取url参数:id
+    console.log($stateParams.id);
+    // $scope.shopFn = shop.shopInit();
+    // $scope.test = function () {
+      var shopDataParam = {
+        ParamId: $stateParams.id
+      };
+      $scope.shopData = [
+        /**
+         * {shopImg:'img/logo.png',
+         * shopName:'黄焖鸡米饭',
+         * shopHref:'#/greens',
+         *  shopDescription:'黄焖鸡蜜柑来自于'}
+         */
+      ];
+      $http({
+        method: 'POST',
+        url: 'http://localhost:8198/shopData',
+        headers:{
+          'Content-Type' : 'application/x-www-form-urlencoded'
+        },
+        data:shopDataParam
+      }).then(function successCallback(response) {
+        console.log(response);
+        var tmpshopData = {};
+        console.log(response.data);
+        tmpshopData = response.data;
+        /**
+         * s_description:"米饭店铺的描述"
+         * s_image:"img/shop1.jpg"
+         * s_nickname:"米饭店铺"
+         * s_rest:""
+         * sf_id:0
+         * sid:1
+         */
+        for (var i = 0; i < tmpshopData.length; i++) {
+          $scope.shopData.push({
+            shopHref: '#/greens/'+tmpshopData[i].sid,
+            shopName: tmpshopData[i].s_nickname,
+            shopImg: tmpshopData[i].s_image,
+            shopDescription: tmpshopData[i].s_description
+          })
+        }
+      }, function errorCallback(response) {
+
+      });
+    // };
+    // $scope.test();
+    $scope.shopFn = $scope.shopData;
+  }])
+
+  .controller('greensCtrl',function($scope,$location,greens,$http,$stateParams){
+    // console.log(greens.greensInit());
+    // $scope.greensFn = greens.greensInit();
+    var greensDataParam = {
+      ParamId: $stateParams.id
     };
+    $scope.greenData = [
+      /*
+       * {cgreensHref:'#/details',
+       * greensImg:'img/banner1.jpg',
+       * greensName:'鱼香肉丝',
+       * greensDescription:'鱼香肉丝（英文名：Stir-fried Pork Strips in Fish Sauce）是一道特色传统名菜，以鱼香调味而得名，属川菜。相传',
+       * greensPrice:'22'},
+       */
+    ];
+    $http({
+      method: 'POST',
+      url: 'http://localhost:8198/greensData',
+      data: greensDataParam,
+      headers:{
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      }
+    }).then(function successCallback(response) {
+      console.log(response);
+      var tmpGreensData = {};
+      console.log(response.data);
+      tmpGreensData = response.data;
+      for (var i = 0; i < tmpGreensData.length; i++) {
+        $scope.greenData.push({
+          greensHref: '#/details/'+tmpGreensData[i].gid,
+          greensImg: tmpGreensData[i].images,
+          greensName: tmpGreensData[i].g_nickname,
+          greensDescription: tmpGreensData[i].g_desciption,
+          greensPrice: tmpGreensData[i].price
+        })
+      }
+
+    }, function errorCallback(response) {
+
+    });
+    $scope.greensFn = $scope.greenData;
+
   })
 
-  .controller('detailsCtrl',function($scope,$location){
-    $scope.greens = function(){
-      $location.url('/details')
+  .controller('detailsCtrl',function($scope,$location,$http,$stateParams){
+    var greensDetailsDataParam = {
+      ParamId: $stateParams.id
     };
+    $scope.greensDetailsData = [];
+    $http({
+      method: 'POST',
+      url: 'http://localhost:8198/greensDetailsData',
+      data: greensDetailsDataParam,
+      headers:{
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      }
+    }).then(function successCallback(response) {
+      console.log(response);
+      var tmpGreensData = {};
+      console.log(response.data);
+      tmpGreensData = response.data;
+      for (var i = 0; i < tmpGreensData.length; i++) {
+        $scope.greensDetailsData.push({
+          greensImg: tmpGreensData[i].images,
+          greensDetailsName: tmpGreensData[i].g_nickname,
+          greensDetailsDescription: tmpGreensData[i].g_desciption,
+          greensDetailsPrice: tmpGreensData[i].price
+        })
+      }
+    }, function errorCallback(response) {
+    });
+    $scope.greenDetailsFn = $scope.greensDetailsData;
+    console.log($scope.greenDetailsFn)
   })
 
+  // 验证两次输入的密码是否相同的自定义验证
+  .directive('pwdRepeat', function () {
+    return {
+      require: 'ngModel',
+      link: function (scope, ele, attrs, ctrl) {
+        ctrl.$validators.pwdRepeat = function (modelValue) {
+          // 当值为空时，通过验证，因为有required
+          if (ctrl.$isEmpty(modelValue)) {
+            return true;
+          }
+          console.log(scope.pwd)
+          return modelValue === scope.pwd ? true : false;
+        }
+      }
+    }
+  });
 

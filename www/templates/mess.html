@@ -1,20 +1,43 @@
-<ion-view view-title="点餐">
-  <ion-nav-title>mess</ion-nav-title>
-  <ion-content ng-controller="messCtrl">
-    <div class="list card">
+<ion-view view-title="花椒食堂" cache-view="false">
+  <ion-nav-title>我们的食堂</ion-nav-title>
+  <!--messHref:"#/shop"
+      messHrefDescription:"今天优惠点我看看"
+      messDescription:"南区1食堂的描述"
+      messName:"南区一食堂"
+      messPerson:"管理员"
+      messPersonImg:"img/logo.png"
+      messImg:'img/banner_1.jpg '-->
+  <ion-content>
+    <div class="list card" ng-repeat="data in messFn">
       <div class="item item-avatar">
-        <img src="img/logo.png">
-        <h2>Pretty Hate Machine</h2>
-        <p>Nine Inch Nails</p>
+        <img src="{{data.messPersonImg}}">
+        <h2>{{data.messName}}</h2>
+        <p>{{data.messPerson}}</p>
       </div>
 
       <div class="item item-image">
-        <img src="img/banner_1.jpg">
+        <img src="{{data.messImg}}">
       </div>
-      <a class="item item-icon-left assertive" href="#/shop">
+      <a class="item item-icon-left assertive" href=" {{data.messHref}}">
         <i class="icon ion-music-note"></i>
-        Start listening
+        {{data.messHrefDescription}}
       </a>
     </div>
+
+    <!--<div class="list card">-->
+      <!--<div class="item item-avatar">-->
+        <!--<img src="img/logo.png">-->
+        <!--<h2>Pretty Hate Machine</h2>-->
+        <!--<p>Nine Inch Nails</p>-->
+      <!--</div>-->
+
+      <!--<div class="item item-image">-->
+        <!--<img src="img/banner_1.jpg">-->
+      <!--</div>-->
+      <!--<a class="item item-icon-left assertive" href="#/shop">-->
+        <!--<i class="icon ion-music-note"></i>-->
+        <!--Start listening-->
+      <!--</a>-->
+    <!--</div>-->
   </ion-content>
 </ion-view>

@@ -1,17 +1,17 @@
 <ion-view view-title="首页">
-  <ion-content class="zt-home-content" ng-controller="homePageCtrl">
+  <ion-content class="zt-home-content">
 		<ion-slide-box  class="zt-home-slider" auto-play="true" slide-interval="4000" does-continue="true" pager-click="pageClick(index)">
 		  <ion-slide>
-		    <div class="box blue"><img class="ps_slideBox" height="140px" width="290px" src="img/banner_1.jpg" alt=""></div>
+        <div class="box"><a href=""><img class="ps_slideBox" height="140px" width="290px" src="img/banner_1.jpg" alt=""></a></div>
 		  </ion-slide>
 		  <ion-slide>
-		    <div class="box yellow"><img class="ps_slideBox" height="140px" width="290px" src="img/banner_2.jpg" alt=""></div>
+		    <div class="box"><a href=""><img class="ps_slideBox" height="140px" width="290px" src="img/banner_2.jpg" alt=""></a></div>
 		  </ion-slide>
 		  <ion-slide>
-		    <div class="box pink"><img class="ps_slideBox" height="140px" width="290px" src="img/banner_3.jpg" alt=""></div>
+		    <div class="box"><a href=""><img class="ps_slideBox" height="140px" width="290px" src="img/banner_3.jpg" alt=""></a></div>
 		  </ion-slide>
 		  <ion-slide>
-		    <div class="box pink"><img class="ps_slideBox" height="140px" width="290px" src="img/banner_4.jpg" alt=""></div>
+		    <div class="box"><a href=""><img class="ps_slideBox" height="140px" width="290px" src="img/banner_4.jpg" alt=""></a></div>
 		  </ion-slide>
 		</ion-slide-box>
 
@@ -37,12 +37,12 @@
             <em>我要吐槽</em>
           </div></a>
         </li>
-        <li class="s2"><a href="javascript:;" ng-click="">
+        <li class="s2"><a href="javascript:;">
           <div class="subtype">
             <em>有什么吃</em>
           </div></a>
         </li>
-        <li class="s3"><a href="javascript:;" ng-click="">
+        <li class="s3"><a href="javascript:;">
           <div class="subtype">
             <em>我的信息</em>
           </div></a>
@@ -53,82 +53,21 @@
     <!-- 热门商品 -->
     <div class="indexhot">
       <div class="titlestyle">
-        <strong>热门商品</strong><span class="fr" style="color:#666;font-weight:normal;">（可左右两边划动）</span>
+        <strong>热门商品</strong><span class="fr" style="color:#666;font-weight:normal;"></span>
       </div>
       <div class="indexgoodslist clearfix">
         <div class="hotswiper">
           <ul class="swiper-wrapper">
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=159">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">鱼虾水蒸蛋 </span>
-                <span class="name"><em>单价：</em><font color="#00CC33">20</font>元</span>
-              </a>
-            </li>
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=158">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">番茄炒蛋</span>
-                <span class="name"><em>单价：</em><font color="#00CC33">12</font>元</span>
-              </a>
-            </li>
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=154">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">杏仁露</span>
-                <span class="name"><em>单价：</em><font color="#00CC33">16</font>元</span>
-              </a>
-            </li>
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=152">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">凯撒沙拉</span>
-                <span class="name"><em>单价：</em><font color="#00CC33">10</font>元</span>
-              </a>
-            </li>
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=151">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">桂花胭脂藕</span>
-                <span class="name"><em>单价：</em><font color="#00CC33">16</font>元</span>
-              </a>
-            </li>
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=147">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">红莓蛋挞 </span>
-                <span class="name"><em>单价：</em><font color="#00CC33">10</font>元</span>
-              </a>
-            </li>
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=144">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">泡椒虾 </span>
-                <span class="name"><em>单价：</em><font color="#00CC33">10</font>元</span>
-              </a>
-            </li>
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=143">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">清蒸青口贝 </span>
-                <span class="name"><em>单价：</em><font color="#00CC33">14</font>元</span>
-              </a>
-            </li>
-            <li class="swiper-slide bgstyle">
-              <a href="show/@id=142">
-                <span class="pic"><img src="" alt="点击查看详情"  height="80px" width="100px"/></span>
-                <span class="name">章鱼小丸子</span>
-                <span class="name"><em>单价：</em><font color="#00CC33">16</font>元</span>
+            <li class="swiper-slide bgstyle" ng-repeat="data in homePageFn">
+              <a href="{{data.greensHref}}">
+                <span class="pic zt-hotGreens-list"><img src="{{data.greensImg}}" alt="点击查看详情"  height="80px" width="100px"/></span>
+                <span class="name">{{data.greensName}} </span>
+                <span class="name"><em>单价：</em><font color="#00CC33">{{data.greensPrice}}</font>元</span>
               </a>
             </li>
           </ul>
         </div>
       </div>
     </div>
-
-
-
   </ion-content>
-
-
 </ion-view>
