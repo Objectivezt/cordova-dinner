@@ -1,5 +1,5 @@
 angular.module('CtrlModule', ['ServiceModule','ionic'])
-  .controller('LeftCtrl',function($scope,$location,$ionicHistory){
+  .controller('LeftCtrl',function($scope,$location,localstorage,$ionicHistory){
     //		console.log("you")
     $scope.index = function(){
       $location.url('/tab/homepage')
@@ -16,9 +16,28 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     $scope.mess = function(){
       $location.url('/mess')
     };
+    if(localstorage.getObject('ecjtu_auth').username != undefined){
+      console.log(localstorage.getObject('ecjtu_auth'));
+      var userInfos = localstorage.getObject('ecjtu_auth'),
+        settingData = [];
+      settingData.push({
+        settingUser: userInfos.username,
+      });
+      console.log(settingData);
+      $scope.settingFn = settingData;
+    }
+    else{
+      var settingData = [];
+      settingData.push({
+        settingUser: '您未登录请登录'
+      });
+      console.log(settingData);
+      $scope.settingFn = settingData;
+    }
+
   })
 
-  .controller('tabCtrl', function ($scope, $ionicModal, $ionicPopover, $timeout) {
+  .controller('tabCtrl', function ($scope, $ionicModal, $ionicPopover,$location,$timeout) {
       // Form data for the login modal
       $scope.loginData = {};
 
@@ -55,8 +74,24 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
   })
 
-  .controller('settingCtrl',function($scope,setting){
-      $scope.settingFn = setting.settingInit();
+  .controller('settingCtrl',function($scope,localstorage,$location,setting){
+      // $scope.settingFn = setting.settingInit();
+    console.log(localstorage.getObject('ecjtu_auth').username);
+      if(localstorage.getObject('ecjtu_auth').username != undefined){
+         console.log(localstorage.getObject('ecjtu_auth'));
+         var userInfos = localstorage.getObject('ecjtu_auth'),
+             settingData = [];
+             settingData.push({
+               settingUser: userInfos.username,
+               settingClass: userInfos.classid,
+               settingGrade: userInfos.grade
+             });
+         console.log(settingData);
+         $scope.settingFn = settingData;
+      }else {
+        $location.url('/login');
+      }
+
 
     })
 
@@ -166,7 +201,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
   })
 
-  .controller('registerCtrl',['$scope', '$http', function($scope,$http, $ionicModal, $timeout,$location) {
+  .controller('registerCtrl',['$scope','$http','$timeout',function($scope,$http,$timeout,$interval,$ionicModal,$location) {
       $scope.registerStaute = false;
       $scope.regisoterBingo = false;
       $scope.regisoterError = false;
@@ -188,13 +223,19 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
             },
             data:param
           }).then(function success(res) {
-              console.log('ok');
+              console.log('接口请求ok');
               console.log(param);
               console.log(res)
               if(res.data.registerStatus== 'error'){
                 $scope.registerStaute = true;
+                $timeout(function(){
+                  $scope.regisoterError = false;
+                },1000);   //间隔2秒定时执行
               }else{
-                $scope.regisoterBingo = true
+                $scope.regisoterBingo = true;
+                $timeout(function(){
+                  $scope.regisoterBingo = false;
+                },1000);
               }
           },function (err) {
             console.log(err);
@@ -206,7 +247,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       }
     }])
 
-  .controller('loginCtrl',['$scope', '$http', function($scope, $http, $ionicModal, $timeout,$location){
+  .controller('loginCtrl',['$scope','$http','$timeout','$location','localstorage',function($scope, $http,$timeout,$location,localstorage){
       // $scope.formModel = {};
       $scope.loginBingo = false;
       $scope.loginError = false;
@@ -226,19 +267,38 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
             data:param
           }).then(function success(res) {
             console.log('ok');
-            console.log(res)
+
             if(res.data.loginStatus == 'error'){
               // $scope.registerStaute = true;
-             $scope.loginError = true;
-              console.log('login error')
+              console.log('login error');
+              $scope.loginError = true;
+              $timeout(function(){
+                $scope.loginError = false;
+              },1000);
             }else{
               console.log('login bingo');
               $scope.loginBingo = true;
+              console.log(res.data);
+              console.log(res.data.stuid);
+              // localstorage.set('name', 'test');
+              // console.log(localstorage.get('name'));
+              localstorage.setObject('ecjtu_auth', {
+                'username': res.data.username,
+                'stuid': res.data.stuid,
+                'classid': res.data.classid,
+                'grade': res.data.grade,
+                'permission': res.data.permission
+              });
+              var infos = localstorage.getObject('ecjtu_auth');
+              console.log(infos);
+              $timeout(function(){
+                $scope.loginBingo = false;
+              },1000);
+              $location.url('/tab/homepage')
             }
           },function (err) {
             console.log(err);
           });
-
           console.log(param);
         }else{
           $scope.submitted = true;

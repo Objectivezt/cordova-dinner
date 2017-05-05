@@ -22,19 +22,13 @@
       <!--</div>-->
     <!--</form>-->
   <!--</ion-content>-->
-  <ion-content>
-
+  <ion-content ng-controller="loginCtrl">
     <div class="zt-changeAlartBingo" id="zt-changeAlartBingo" ng-show="loginBingo">
-      <span class="zt-alert-box"><i class="nc-icon-glyph ui-1_check-bold"></i>注册成功</span>
+      <span class="zt-alert-box"><i class="nc-icon-glyph ui-1_check-bold"></i>登录成功</span>
     </div>
     <div class="zt-changeAlartError" id="zt-changeAlartError" ng-show="loginError">
-      <span class="zt-alert-box"><i class="nc-icon-glyph  ui-2_fat-remove"></i>注册失败</span>
+      <span class="zt-alert-box"><i class="nc-icon-glyph  ui-2_fat-remove"></i>登录失败</span>
     </div>
-
-
-
-
-
     <div class="content has-header">
       <form ng-submit="onSubmit(myLogin.$valid)"  name="myLogin"  novalidate>
         <div class="list zt-login-list">
