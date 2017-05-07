@@ -91,7 +91,10 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       }else {
         $location.url('/login');
       }
-
+    $scope.loginout = function(){
+      localstorage.removeObject('ecjtu_auth');
+      $location.url('/tab/homepage');
+    };
 
     })
 
@@ -105,100 +108,73 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
   })
 
   .controller('detailCtrl', function($scope,order,getDetailData,$ionicSlideBoxDelegate,$http) {
-      console.log('detailCtrl')
-      var timeData=new Date();
-      var month=timeData.getMonth()+1;
-      var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
-      var toweekday=timeData.getDay();
-      $scope.today=timeData.getFullYear()+'/'+month+'/'+timeData.getDate()+' '+weekday[toweekday];
-      console.log($scope.today)
-      $scope.currentDay=[];
-      for(var i=0;i<5;i++){
-          $scope.currentDay.push(weekday[toweekday+8+i]);
-      }
+      console.log('detailCtrl');
+      // var timeData=new Date();
+      // var month=timeData.getMonth()+1;
+      // var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
+      // var toweekday=timeData.getDay();
+      // $scope.today=timeData.getFullYear()+'/'+month+'/'+timeData.getDate()+' '+weekday[toweekday];
+      // console.log($scope.today)
+      // $scope.currentDay=[];
+      // for(var i=0;i<5;i++){
+      //     $scope.currentDay.push(weekday[toweekday+8+i]);
+      // }
       $scope.$on('$ionicView.enter', function(e) {
           $scope.order=order.initOrder();
           $ionicSlideBoxDelegate.update();
       });
   })
 
-  .controller('searchCtrl', function($scope,order,cityCollection,$ionicPopup) {
-      console.log(1);
-      $scope.collections=cityCollection.all();
-      $scope.add=function (city) {
-        order.add(city);
-        order.saveData();
-      };//添加并保存城市
-      $scope.search=function (city) {
-          if(city==''||city==null)
+  .controller('searchCtrl', function($scope,$ionicPopup,$http,$location) {
+      console.log('searchCtrl');
+      var searchgid = '';
+      $scope.getData = false;
+      $scope.searchgreens = function (greensDetails) {
+          $http({
+            method:'POST',
+            url:'http://localhost:8198/greensDetailsName',
+            headers:{
+              'Content-Type' : 'application/x-www-form-urlencoded'
+            },
+            data:{'ParamId':greensDetails}
+          }).then(function success(res) {
+            console.log('接口请求ok');
+            console.log(res);
+            if(res.data.gid){
+              console.log(res.data.gid);
+              searchgid = res.data.gid;
+              $scope.getData = true;
+            }
+          },function (err) {
+          }).then(function () {
+            console.log($scope.getData);
+            if ($scope.getData) {
+              return $ionicPopup.alert({
+                  title: '成功/success！',
+                  template:'查询成功！'
+                }).then(function() {
+                  $location.url('/greens/'+ searchgid);
+                });
+            }else{
+              $ionicPopup.alert({
+                title: '失败/error！',
+                template: '没有结果显示！'
+              });
+            }
+           })
+      };
+      $scope.search = function (greensDetails) {
+          // console.log($scope.getData);
+          // console.log($scope.searchgreens(greensDetails));
+          if( greensDetails == '' || greensDetails == null ){
             return $ionicPopup.alert({
               title:"注意/warning！",
               template:'搜索城市不能为空！'
-            }) ;
-          else{
-            if(cityCollection.searchCity(city))
-            {
-              $scope.add(city);
-              return $ionicPopup.alert({
-                title:'成功/success！',
-              template:city+'添加成功！'
-              })
-            }
-            else return $ionicPopup.alert({
-              title:'失败/error！',
-              template:'没有结果显示！'
-            });
+            })
+          } else {
+            $scope.searchgreens(greensDetails);
           }
       };//搜索函数
-
-      $scope.chosenCity='';
-      $scope.choose=function (city) {
-          $scope.chosenCity=city;
-      };//更新已选择的城市
-
-      $scope.enter=function (pro) {
-          $scope.citys=pro.city;
-          var cityConfirm =$ionicPopup.show({
-            title:"选择城市",
-            scope:$scope,
-            template: '<ion-radio ng-repeat="c in citys" ng-click="choose(c,this)">{{c}}</ion-radio>',
-            buttons:[{
-              text: 'Cancel',
-              type: 'button-default',
-              onTap: function(e) {
-              }},{
-              text: 'OK',
-              type: 'button-positive',
-              onTap: function() {
-                if($scope.chosenCity==''){
-                  $ionicPopup.alert({
-                    title:"注意/warning！",
-                    template:'城市不能为空！'
-                  })
-                }else{
-                  if(!order.check($scope.chosenCity)){
-                    $scope.add($scope.chosenCity);
-                    $ionicPopup.alert({
-                      title:'成功/success！',
-                      template:$scope.chosenCity+'添加成功！'
-                    });
-                    $scope.chosenCity='';
-                  }else
-                    {
-                    $ionicPopup.alert({
-                      title:'失败/error！',
-                      template:'城市已经存在！！'
-                    });
-                    $scope.chosenCity='';
-                  }
-
-                  }
-                }
-
-            }]
-          }) ;
-      };//城市展开函数
-
   })
 
   .controller('registerCtrl',['$scope','$http','$timeout',function($scope,$http,$timeout,$interval,$ionicModal,$location) {
@@ -283,6 +259,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
               // localstorage.set('name', 'test');
               // console.log(localstorage.get('name'));
               localstorage.setObject('ecjtu_auth', {
+                'uid':res.data.uid,
                 'username': res.data.username,
                 'stuid': res.data.stuid,
                 'classid': res.data.classid,
@@ -336,8 +313,8 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     console.log(mess)
   })
 
-  .controller('shopCtrl',['$http','$scope','$rootScope','$location','$ionicPopup','$ionicHistory','$stateParams','shop',function($http,$scope,$rootScope,$location,$ionicPopup,$ionicHistory,$stateParams,shop){
-    $rootScope.showHeader = false;
+  .controller('shopCtrl',['$http','$scope','$location','$stateParams',function($http,$scope,$location,$stateParams){
+    // $rootScope.showHeader = false;
     //获取url参数:id
     console.log($stateParams.id);
     // $scope.shopFn = shop.shopInit();
@@ -389,7 +366,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     $scope.shopFn = $scope.shopData;
   }])
 
-  .controller('greensCtrl',function($scope,$location,greens,$http,$stateParams){
+  .controller('greensCtrl',function($scope,$location,$http,$stateParams){
     // console.log(greens.greensInit());
     // $scope.greensFn = greens.greensInit();
     var greensDataParam = {
@@ -433,10 +410,11 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
   })
 
-  .controller('detailsCtrl',function($scope,$location,$http,$stateParams){
+  .controller('detailsCtrl',function($scope,$location,$http,$stateParams,localstorage){
     var greensDetailsDataParam = {
       ParamId: $stateParams.id
-    };
+    },
+    detailData = [];
     $scope.greensDetailsData = [];
     $http({
       method: 'POST',
@@ -449,6 +427,8 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       console.log(response);
       var tmpGreensData = {};
       console.log(response.data);
+      detailData = response.data[0];
+      console.log(detailData);
       tmpGreensData = response.data;
       for (var i = 0; i < tmpGreensData.length; i++) {
         $scope.greensDetailsData.push({
@@ -461,7 +441,63 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     }, function errorCallback(response) {
     });
     $scope.greenDetailsFn = $scope.greensDetailsData;
-    console.log($scope.greenDetailsFn)
+    // console.log($scope.greenDetailsFn);
+    $scope.buy = function () {
+      var getPerson = localstorage.getObject('ecjtu_auth');
+      var buyDate = new Date();
+      var buydid = 0;
+      console.log(detailData.gid);
+      console.log(getPerson.uid);
+      console.log(buyDate.getTime());
+
+
+      var buyParam = {
+        'gid': detailData.gid,
+        'gf_id':detailData.gf_id,
+        'uid': getPerson.uid,
+        'buydate':buyDate.getTime()
+      };
+      $http({
+        url:'http://localhost:8198/greensbuy',
+        method:'POST',
+        data: buyParam,
+        headers:{
+          'Content-Type' : 'application/x-www-form-urlencoded'
+        }}).then(function successCallback(res) {
+          console.log(res);
+          if(res.data.didObjnum){
+            console.log(res);
+            console.log(res.data.didObjnum);
+            buydid = res.data.didObjnum;
+
+          }
+        }, function errorCallback(res) {
+        }).then(function () {
+          if (buydid != 0){
+            $http({
+              url:'http://localhost:8198/greensbuydata',
+              method:'POST',
+              data:{
+                'buydid':buydid,
+                'uid':getPerson.uid,
+                'oprice': $scope.greensDetailsData[0].greensDetailsPrice,
+                'gid': detailData.gid
+
+              },
+              headers:{
+                'Content-Type' : 'application/x-www-form-urlencoded'
+              }
+            }).then(
+              function successCallback(res) {
+                console.log(res);
+              }
+            )
+          }
+      })
+
+
+
+    }
   })
 
   // 验证两次输入的密码是否相同的自定义验证

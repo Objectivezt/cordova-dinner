@@ -7,7 +7,7 @@
       messPerson:"管理员"
       messPersonImg:"img/logo.png"
       messImg:'img/banner_1.jpg '-->
-  <ion-content>
+  <ion-content ng-controller="messCtrl">
     <div class="list card" ng-repeat="data in messFn">
       <div class="item item-avatar">
         <img src="{{data.messPersonImg}}">

@@ -78,11 +78,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
     //     }
     //   }
     // })
-
-
-
-
-
   .state('tab.detail', {
     url: '/detail',
     views: {
@@ -112,15 +107,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
         }
       }
     })
-  // .state('tab.search', {
-  //   url: '/tab-search',
-  //   views: {
-  //     'tab-search': {
-  //       templateUrl: 'templates/search.html',
-  //       controller: 'searchCtrl'
-  //     }
-  //   }
-  // })
 
 
 

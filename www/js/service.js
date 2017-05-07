@@ -33,7 +33,7 @@ angular.module('ServiceModule',[])
   })//获取食堂列表messData数据
   .service('order', function (getDetailData) {
     var orderNames = ['广州', '深圳', '北京', '上海'];
-    var order=[];
+    var order = [];
     return {
       initOrder: function () {
         if(order.length==0){
@@ -45,18 +45,18 @@ angular.module('ServiceModule',[])
             return order;
           }
           else{
-
             var datalist=JSON.parse(localStorage.getItem('data'));
             for(var i =0;i< datalist.length;i++){
               this.add(datalist[i]);
             }
+            console.log(order);
             return order;
           }//初始化城市参数，检查本地有没有数据有就用，没有数据的话就用默认的
         }else return order;//看看order里面有没有数据，没有的话就新建，有就直接返回
       },
-      remove: function (city) {
-        order.splice(order.indexOf(city), 1);
-      },//删除城市
+      // remove: function (city) {
+      //   order.splice(order.indexOf(city), 1);
+      // },//删除城市
       add: function (name) {
         var newer = {
           name: '',
@@ -67,19 +67,19 @@ angular.module('ServiceModule',[])
         newer.today=getDetailData.getToday(name);
         newer.current=getDetailData.getCurrent(name);
         order.push(newer);
-      },//添加城市
-      check: function (name) {
-        for (var i in order)
-          if (order[i].name == name)return true;
-        return false;
-      },//检测城市是否已经存在
-      saveData:function () {
-        var namelist=[];
-        for(var i in order){
-          namelist.push(order[i].name);
-        }
-        localStorage.setItem('data',JSON.stringify(namelist));
-      }//把数据保存到本地去
+      }//添加城市
+      // check: function (name) {
+      //   for (var i in order)
+      //     if (order[i].name == name)return true;
+      //   return false;
+      // },//检测城市是否已经存在
+      // saveData:function () {
+      //   var namelist=[];
+      //   for(var i in order){
+      //     namelist.push(order[i].name);
+      //   }
+      //   localStorage.setItem('data',JSON.stringify(namelist));
+      // }//把数据保存到本地去
     };
   })//城市气象数据和相关方法
   .factory('homePageData',function ($http) {
@@ -179,7 +179,6 @@ angular.module('ServiceModule',[])
       }
     }
   })
-
   .factory('localstorage',['$window',function ($window) {
     return{
       set:function (key,value) {
@@ -193,160 +192,16 @@ angular.module('ServiceModule',[])
       },
       getObject:function (key) {
         return JSON.parse($window.localStorage[key] || '{}');
+      },
+      removeObject:function(key){
+        return $window.localStorage.removeItem(key);
+      },
+      clearLocalStorage:function(){
+        return $window.localStorage.clear();
       }
     }
   }])//创建localStorage模型
-  .factory('cityCollection', function () {
-    var cityCollection = [
-      {
-        province: "北京",
-        city: ["北京"]
-      },
-      {
-        province: "天津",
-        city: ["天津"]
-      },
-      {
-        province: "重庆",
-        city: ["重庆"]
-      },
-      {
-        province: "上海",
-        city: ["上海"]
-      },
-      {
-        province: "香港",
-        city: ["香港"]
-      },
-      {
-        province: "澳门",
-        city: ["澳门"]
-      },
-      {
-        province: "黑龙江",
-        city: ['哈尔滨', '大庆', '齐齐哈尔', '佳木斯', '鸡西', '鹤岗', '双鸭山', '牡丹江', '伊春', '七台河', '黑河', '绥化']
-      },
-      {
-        province: '吉林',
-        city: ['长春', '吉林', '四平', '辽源', '通化', '白山', '松原', '白城']
-      },
-      {
-        province: '辽宁',
-        city: ['沈阳', '大连', '鞍山', '抚顺', '本溪', '丹东', '锦州', '营口', '阜新', '辽阳', '盘锦', '铁岭', '朝阳', '葫芦岛']
-      },
-      {
-        province: '河北',
-        city: ['石家庄', '唐山', '邯郸', '秦皇岛', '保定', '张家口', '承德', '廊坊', '沧州', '衡水', '邢台']
-      },
-      {
-        province: '山东',
-        city: ['济南', '青岛', '淄博', '枣庄', '东营', '烟台', '潍坊', '济宁', '泰安', '威海', '日照', '莱芜', '临沂', '德州', '聊城', '菏泽', '滨州']
-      },
-      {
-        province: '江苏',
-        city: ['南京', '镇江', '常州', '无锡', '苏州', '徐州', '连云港', '淮安', '盐城', '扬州', '泰州', '南通', '宿迁']
-      },
-      {
-        province: '安徽',
-        city: ['合肥', '蚌埠', '芜湖', '淮南', '亳州', '阜阳', '淮北', '宿州', '滁州', '安庆', '巢湖', '马鞍山', '宣城', '黄山', '池州', '铜陵']
-      },
-      {
-        province: '浙江',
-        city: ['杭州', '嘉兴', '湖州', '宁波', '金华', '温州', '丽水', '绍兴', '衢州', '舟山', '台州']
-      },
-      {
-        province: '福建',
-        city: ['福州', '厦门', '泉州', '三明', '南平', '漳州', '莆田', '宁德', '龙岩']
-      },
-      {
-        province: '广东',
-        city: ['广州', '深圳', '汕头', '惠州', '珠海', '揭阳', '佛山', '河源', '阳江', '茂名', '湛江', '梅州', '肇庆', '韶关', '潮州', '东莞', '中山', '清远', '江门', '汕尾', '云浮']
-      },
-      {
-        province: '海南',
-        city: ['海口', '三亚']
-      },
-      {
-        province: '云南',
-        city: ['昆明', '曲靖', '玉溪', '保山', '昭通', '丽江', '普洱', '临沧']
-      },
-      {
-        province: '贵州',
-        city: ['贵阳', '六盘水', '遵义', '安顺']
-      },
-      {
-        province: '四川',
-        city: ['成都', '绵阳', '德阳', '广元', '自贡', '攀枝花', '乐山', '南充', '内江', '遂宁', '广安', '泸州', '达州', '眉山', '宜宾', '雅安', '资阳']
-      },
-      {
-        province: '湖南',
-        city: ['长沙', '株洲', '湘潭', '衡阳', '岳阳', '郴州', '永州', '邵阳', '怀化', '常德', '益阳', '张家界', '娄底']
-      },
-      {
-        province: '湖北',
-        city: ['武汉', '襄樊', '宜昌', '黄石', '鄂州', '随州', '荆州', '荆门', '十堰', '孝感', '黄冈', '咸宁']
-      },
-      {
-        province: '河南',
-        city: ['郑州', '洛阳', '开封', '漯河', '安阳', '新乡', '周口', '三门峡', '焦作', '平顶山', '信阳', '南阳', '鹤壁', '濮阳', '许昌', '商丘', '驻马店']
-      },
-      {
-        province: '山西',
-        city: ['太原', '大同', '忻州', '阳泉', '长治', '晋城', '朔州', '晋中', '运城', '临汾', '吕梁']
-      },
-      {
-        province: '陕西',
-        city: ['西安', '咸阳', '铜川', '延安', '宝鸡', '渭南', '汉中', '安康', '商洛', '榆林']
-      },
-      {
-        province: '甘肃',
-        city: ['兰州', '天水', '平凉', '酒泉', '嘉峪关', '金昌', '白银', '武威', '张掖', '庆阳', '定西', '陇南']
-      },
-      {
-        province: '青海',
-        city: ['西宁']
-      },
-      {
-        province: '江西',
-        city: ['南昌', '九江', '赣州', '吉安', '鹰潭', '上饶', '萍乡', '景德镇', '新余', '宜春', '抚州']
-      },
-      {
-        province: '台湾',
-        city: ['台北', '台中', '基隆', '高雄', '台南', '新竹', '嘉义']
-      },
-      {
-        province: '新疆',
-        city: ['乌鲁木齐', '克拉玛依']
-      },
-      {
-        province: '西藏',
-        city: ['拉萨']
-      },
-      {
-        province: '宁夏',
-        city: ['银川', '石嘴山', '吴忠', '固原', '中卫']
-      },
-      {
-        province: '内蒙古',
-        city: ['呼和浩特', '包头', '乌海', '赤峰', '通辽', '鄂尔多斯', '呼伦贝尔', '巴彦淖尔', '乌兰察布']
-      },
-      {
-        province: '广西',
-        city: ['南宁', '柳州', '桂林', '梧州', '北海', '崇左', '来宾', '贺州', '玉林', '百色', '河池', '钦州', '防城港', '贵港']
-      }
-    ];
-    return {
-      all: function () {
-        return cityCollection;
-      },
-      searchCity: function (city) {
-        for (var i in cityCollection)
-          for (var j in cityCollection[i].city)
-            if (city == cityCollection[i].city[j])return true;
-        return false;
-      }
-    };
-  })//城市选择的数据
+
   .factory('getDetailData', function ($http, stringSearch) {
     return{
       getToday:function (name) {
