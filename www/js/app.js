@@ -191,6 +191,17 @@ angular.module('myApp', ['ionic','CtrlModule'])
         }
       }
     })
+
+    .state('evaluate', {
+      url: '/evaluate/:id',
+      views: {
+        'index_nav_view': {
+          templateUrl: 'templates/evaluate.html',
+          controller: 'evaluateCtrl'
+        }
+      }
+    });
+
   $ionicConfigProvider.views.maxCache(0);
   $urlRouterProvider.otherwise('/tab/homePage')
 });

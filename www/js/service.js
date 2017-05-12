@@ -151,6 +151,7 @@ angular.module('ServiceModule',[])
     });
     return {
       all : function(){
+        console.log(messData);
         return messData;
       }
     }
@@ -486,5 +487,8 @@ angular.module('ServiceModule',[])
           return '';
         }
       }
-  });//城市拼音数据
+  })
+//城市拼音数据
+
+
 
