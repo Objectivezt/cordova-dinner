@@ -256,3 +256,16 @@ div.zt-changeAlartBingo, div.zt-changeAlartError {
   border-radius: 100px;
   background: #482929;
 }
+
+.zt-star-size{
+  height:30px;
+  width: 30px;
+}
+.zt-eva-textarea{
+  height:300px;
+  border:1px solid #e6e6e6;
+
+}
+.zt-eva-textarea,.zt-eva-button{
+  width:100%;
+}

@@ -1,12 +1,12 @@
 <ion-view view-title="我的订单">
   <ion-content class="padding">
-    <ion-slide-box show-pager="false" ng-if="order">
-      <ion-slide ng-repeat="city in order ">
-        <div class="item item-image" style="padding: 50px;background-color: rgb(47,46,47);">
-          <h2 class="tem ion-thermometer" style="color: #fff;font-size:48px;"> {{city.today.tem}}℃</h2>
-          <img src="img\{{city.today.ico}}.png">
-          <h3 class="tem " style="color: #fff;font-size:28px;">{{city.name}}</h3>
-          <h2 class="text-center" style="color: #fff;font-size:18px;">{{city.today.state}}</h2>
+    <ion-slide-box show-pager="false">
+      <ion-slide ng-repeat="data in detailData ">
+        <div class="item item-image" style="padding: 50px;background-color: rgb(47,46,47);width: 100%;height:450px">
+          <h3 class="tem" style="color: #fff;font-size:1.8rem;"> 单价：{{data.detailprice}}￥</h3>
+          <img height="250px" width="250px" src="{{data.detailImg}}">
+          <h3 class="tem " style="color: #fff;font-size:1.8rem;">{{data.detailName}}</h3>
+          <h2 class="text-center" style="color: #fff;font-size:1rem;">取货码:{{data.detailgetCode}}</h2>
         </div>
         <!--<div class="item item-body">-->
           <!--<p  class="text-center" style="font-size:14px;">{{today}}</p>-->

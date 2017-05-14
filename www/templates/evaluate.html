@@ -1,0 +1,22 @@
+<ion-view title="花椒餐厅">
+  <ion-nav-title>{{greensInfos.gname}}</ion-nav-title>
+  <ion-content >
+    <div class="zt-changeAlartBingo" id="zt-changeAlartBingo" ng-show="evaBingo">
+      <span class="zt-alert-box"><i class="nc-icon-glyph ui-1_check-bold"></i>评价成功</span>
+    </div>
+    <div class="zt-changeAlartError" id="zt-changeAlartError" ng-show="evaError">
+      <span class="zt-alert-box"><i class="nc-icon-glyph  ui-2_fat-remove"></i>评价失败</span>
+    </div>
+
+    <img src="{{greensInfos.gimg}}">
+    <div style="padding-left: 20px;padding-top: 20px">
+      <mystarselect level="evaluateLevel"></mystarselect>
+    </div>
+    <form ng-submit="onSubmit(myEvalua.$valid)"  name="myEvalua"  novalidate ng-controller="evaluateCtrl">
+      <textarea type="text" class="zt-eva-textarea"  name="evaComment" id="evaComment"  ng-model="evaComment" placeholder="请输入您对{{greensInfos.gname}}的评价信息">
+      </textarea>
+      <button class="zt-eva-button" class="button button-small" type="submit">提交</button>
+    </form>
+  </ion-content>
+</ion-view>
+

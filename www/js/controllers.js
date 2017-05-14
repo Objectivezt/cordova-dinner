@@ -1,6 +1,8 @@
 angular.module('CtrlModule', ['ServiceModule','ionic'])
-  .controller('LeftCtrl',function($scope,$location,localstorage,$ionicHistory){
+  .controller('LeftCtrl',function($scope,$location,localstorage){
     //		console.log("you")
+
+    $scope.abs = '1231231231';
     $scope.index = function(){
       $location.url('/tab/homepage')
     };
@@ -16,28 +18,26 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     $scope.mess = function(){
       $location.url('/mess')
     };
-    if(localstorage.getObject('ecjtu_auth').username != undefined){
+    $scope.settingData = [];
+    if( localstorage.getObject('ecjtu_auth').username != undefined ){
       console.log(localstorage.getObject('ecjtu_auth'));
-      var userInfos = localstorage.getObject('ecjtu_auth'),
-        settingData = [];
-      settingData.push({
-        settingUser: userInfos.username,
+      var userInfos = localstorage.getObject('ecjtu_auth');
+      $scope.settingData.push({
+        settingUser: userInfos.username
       });
-      console.log(settingData);
-      $scope.settingFn = settingData;
-    }
-    else{
-      var settingData = [];
-      settingData.push({
+      console.log( $scope.settingData);
+      $scope.settingFn =  $scope.settingData;
+    }else{
+      $scope.settingData.push({
         settingUser: '您未登录请登录'
       });
-      console.log(settingData);
-      $scope.settingFn = settingData;
+      console.log($scope.settingData);
+      $scope.settingFn =  $scope.settingData;
     }
 
   })
 
-  .controller('tabCtrl', function ($scope, $ionicModal, $ionicPopover,$location,$timeout) {
+  .controller('tabCtrl', function ($scope, $ionicModal, $ionicPopover) {
       // Form data for the login modal
       $scope.loginData = {};
 
@@ -70,11 +70,69 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       });
   })
 
-  .controller('commentCtrl',function($scope,$location){
+  .controller('commentCtrl',function($scope,$http,$location,localstorage){
+    $scope.shopPlace = function (num) {
+      var tempplace = '';
+      switch (num)
+      {
+        case 1:
+          tempplace="南区第一食堂";
+          break;
+        case 2:
+          tempplace="南区第二食堂";
+          break;
+        case 3:
+          tempplace="南区第三食堂";
+          break;
+        case 4:
+          tempplace="南区第四食堂";
+          break;
+        case 5:
+          tempplace="北区第一食堂";
+          break;
+        case 6:
+          tempplace="北区第二食堂";
+          break;
+        case 7:
+          tempplace="北区第三食堂";
+          break;
+        case 8:
+          tempplace="北区第四食堂";
+          break;
+      }
+      return tempplace
+    };
+    $scope.commentData = [];
+    var param = { 'uid' :localstorage.getObject('ecjtu_auth').uid};
+    console.log(localstorage.getObject('ecjtu_auth').uid);
+    $http({
+      method: 'POST',
+      url: 'http://localhost:8198/comment',
+      headers:{
+        'Content-Type' : 'application/x-www-form-urlencoded'
+      },
+      data:param
+    }).then(function successCallback(res) {
+      var tempCommentData = {};
+      console.log(res);
+      tempCommentData = res.data;
+      for(var i = 0;i<tempCommentData.length;i++){
+        $scope.commentData.push({
+          commentImg:tempCommentData[i].images,
+          commentStar:tempCommentData[i].cgrade,
+          commentNickname:tempCommentData[i].g_nickname,
+          commentShopPlace:$scope.shopPlace(tempCommentData[i].sf_id),
+          commentText:tempCommentData[i].ccomment
+        })
+      }
 
+      $scope.commentFn = $scope.commentData;
+    }, function errorCallback(response) {
+
+    })
   })
 
-  .controller('settingCtrl',function($scope,localstorage,$location,setting){
+  .controller('settingCtrl',function($scope,localstorage,$location){
       // $scope.settingFn = setting.settingInit();
     console.log(localstorage.getObject('ecjtu_auth').username);
       if(localstorage.getObject('ecjtu_auth').username != undefined){
@@ -98,31 +156,31 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
     })
 
-  .controller('orderCtrl',function($scope, order) {
-      console.log('orderCtrl')
-      $scope.order = order.initOrder();
-      $scope.remove = function(chat) {
-        order.remove(chat);
-        order.saveData();
-      };
-  })
-
-  .controller('detailCtrl', function($scope,order,getDetailData,$ionicSlideBoxDelegate,$http) {
+  .controller('detailCtrl', function($scope,$http,localstorage) {
       console.log('detailCtrl');
-      // var timeData=new Date();
-      // var month=timeData.getMonth()+1;
-      // var weekday=["星期日","星期一","星期二","星期三","星期四","星期五","星期六"];
-      // var toweekday=timeData.getDay();
-      // $scope.today=timeData.getFullYear()+'/'+month+'/'+timeData.getDate()+' '+weekday[toweekday];
-      // console.log($scope.today)
-      // $scope.currentDay=[];
-      // for(var i=0;i<5;i++){
-      //     $scope.currentDay.push(weekday[toweekday+8+i]);
-      // }
-      $scope.$on('$ionicView.enter', function(e) {
-          $scope.order=order.initOrder();
-          $ionicSlideBoxDelegate.update();
+      $scope.detailData = [];
+      var userid = localstorage.getObject('ecjtu_auth').uid,
+      param = {'userid':userid};
+      $http({
+        method:'POST',
+        url:'http://localhost:8198/getDetaillist',
+        headers:{
+          'Content-Type' : 'application/x-www-form-urlencoded'
+        },
+        data:param
+      }).then(function success(res) {
+        console.log(res.data);
+        for(var i = 0;i<res.data.length;i++){
+          $scope.detailData.push({
+              'detailImg':res.data[i].images,
+              'detailName':res.data[i].g_nickname,
+              'detailgetCode':res.data[i].getcode,
+              'detailprice':res.data[i].oprice
+          })
+        }
+        console.log( $scope.detailData);
       });
+
   })
 
   .controller('searchCtrl', function($scope,$ionicPopup,$http,$location) {
@@ -177,7 +235,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       };//搜索函数
   })
 
-  .controller('registerCtrl',['$scope','$http','$timeout',function($scope,$http,$timeout,$interval,$ionicModal,$location) {
+  .controller('registerCtrl',['$scope','$http','$timeout',function($scope,$http,$timeout) {
       $scope.registerStaute = false;
       $scope.regisoterBingo = false;
       $scope.regisoterError = false;
@@ -201,8 +259,8 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
           }).then(function success(res) {
               console.log('接口请求ok');
               console.log(param);
-              console.log(res)
-              if(res.data.registerStatus== 'error'){
+              console.log(res);
+              if(res.data.registerStatus == 'error'){
                 $scope.registerStaute = true;
                 $timeout(function(){
                   $scope.regisoterError = false;
@@ -242,41 +300,38 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
             },
             data:param
           }).then(function success(res) {
-            console.log('ok');
-
-            if(res.data.loginStatus == 'error'){
-              // $scope.registerStaute = true;
-              console.log('login error');
-              $scope.loginError = true;
-              $timeout(function(){
-                $scope.loginError = false;
-              },1000);
-            }else{
-              console.log('login bingo');
-              $scope.loginBingo = true;
-              console.log(res.data);
-              console.log(res.data.stuid);
-              // localstorage.set('name', 'test');
-              // console.log(localstorage.get('name'));
-              localstorage.setObject('ecjtu_auth', {
-                'uid':res.data.uid,
-                'username': res.data.username,
-                'stuid': res.data.stuid,
-                'classid': res.data.classid,
-                'grade': res.data.grade,
-                'permission': res.data.permission
-              });
-              var infos = localstorage.getObject('ecjtu_auth');
-              console.log(infos);
-              $timeout(function(){
-                $scope.loginBingo = false;
-              },1000);
-              $location.url('/tab/homepage')
-            }
-          },function (err) {
-            console.log(err);
-          });
-          console.log(param);
+                    console.log('ok');
+                    if(res.data.loginStatus == 'error'){
+                      // $scope.registerStaute = true;
+                      console.log('login error');
+                      $scope.loginError = true;
+                      $timeout(function(){
+                        $scope.loginError = false;
+                      },1000);
+                    }else{
+                      console.log('login bingo');
+                      $scope.loginBingo = true;
+                      console.log(res.data);
+                      console.log(res.data.stuid);
+                      localstorage.setObject('ecjtu_auth', {
+                        'uid':res.data.uid,
+                        'username': res.data.username,
+                        'stuid': res.data.stuid,
+                        'classid': res.data.classid,
+                        'grade': res.data.grade,
+                        'permission': res.data.permission
+                      });
+                      var infos = localstorage.getObject('ecjtu_auth');
+                      console.log(infos);
+                      $timeout(function(){
+                        $scope.loginBingo = false;
+                      },1000);
+                      $location.url('/tab/homepage')
+                    }
+                },function (err) {
+                  console.log(err);
+                });
+                console.log(param);
         }else{
           $scope.submitted = true;
         }
@@ -306,11 +361,45 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
   })
 
   .controller('messCtrl',function($scope,$location,mess){
-    $scope.mess = function(){
-      //$location.url('/mess')
-    };
     $scope.messFn = mess.messInit();
     console.log(mess)
+  })
+
+  .controller('evaluateCtrl',function ($scope,$rootScope,$http,$timeout,localstorage) {
+    $scope.greensInfos = localstorage.getObject('evaluate');
+    console.log($scope.greensInfos);
+    var evauid =  localstorage.getObject('ecjtu_auth').uid;
+    $scope.onSubmit = function(){
+      console.log($scope.evaComment);
+
+      console.log($rootScope.pointStar);
+      console.log(evauid);
+      console.log($scope.greensInfos.gid);
+      var evaDate = new Date();
+      if($scope.evaComment == undefined){
+        $scope.evaComment = '没有评价信息';
+        console.log($scope.evaComment);
+      }
+      var param = {
+          'ccomment' : $scope.evaComment,
+          'cgrade' : $rootScope.pointStar,
+          'uid' : evauid,
+          'gid': $scope.greensInfos.gid,
+          'ctime':evaDate.getTime()
+      };
+      $http({
+        method: 'POST',
+        url: 'http://localhost:8198/evaluate',
+        headers:{
+          'Content-Type' : 'application/x-www-form-urlencoded'
+        },
+        data:param
+      }).then(function successCallback(res) {
+        console.log(res);
+      }, function errorCallback(response) {
+
+      })
+    }
   })
 
   .controller('shopCtrl',['$http','$scope','$location','$stateParams',function($http,$scope,$location,$stateParams){
@@ -410,12 +499,14 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
   })
 
-  .controller('detailsCtrl',function($scope,$location,$http,$stateParams,localstorage){
+  .controller('detailsCtrl',function($scope,$location,$http,$stateParams,$ionicPopup,localstorage){
     var greensDetailsDataParam = {
       ParamId: $stateParams.id
     },
     detailData = [];
     $scope.greensDetailsData = [];
+    $scope.buygid = 0;
+    $scope.yzm = '';
     $http({
       method: 'POST',
       url: 'http://localhost:8198/greensDetailsData',
@@ -446,11 +537,11 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       var getPerson = localstorage.getObject('ecjtu_auth');
       var buyDate = new Date();
       var buydid = 0;
+
       console.log(detailData.gid);
       console.log(getPerson.uid);
       console.log(buyDate.getTime());
-
-
+      $scope.buygid = detailData.gid;
       var buyParam = {
         'gid': detailData.gid,
         'gf_id':detailData.gf_id,
@@ -467,6 +558,8 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
           console.log(res);
           if(res.data.didObjnum){
             console.log(res);
+            $scope.yzm = res.data.getcodetemp;
+            console.log(res.data.getcodetemp);
             console.log(res.data.didObjnum);
             buydid = res.data.didObjnum;
 
@@ -493,7 +586,34 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
               }
             )
           }
-      })
+      }).then(function() {
+          var confirmPopup = $ionicPopup.confirm({
+            title: '取货码',
+            template: '取货码为'+$scope.yzm+',点击跳转后到菜品评价页面',
+            cancelText:'取消',
+            okText:'确认'
+          });
+          confirmPopup.then(function(resp) {
+            console.log(resp);
+            if(resp) {
+              console.log('You are sure');
+              console.log('/evaluate/'+$scope.buygid);
+              $location.url('/evaluate/'+$scope.buygid);
+              // $location.url('/login');
+              // localstorage.removeObject('evaluate');
+              if(localstorage.getObject('evaluate')){
+                localstorage.removeObject('evaluate');
+              }
+              localstorage.setObject('evaluate', {
+                'gid': $scope.buygid,
+                'gname': $scope.greensDetailsData[0].greensDetailsName,
+                'gimg':  $scope.greensDetailsData[0].greensImg
+              })
+            } else {
+              console.log('You are not sure');
+            }
+          });
+        })
 
 
 
@@ -515,5 +635,114 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
         }
       }
     }
+  })
+  /**
+   * 评价星星选择控件
+   */
+  .directive("mystarselect", function ($rootScope) {
+      $rootScope.pointStar = 0
+      return {
+          restrict: 'AE',
+          replace: true,
+          scope: {
+            level: '='
+          },
+          template: '<div id="mystarselect"></div>',
+          link: function (scope) {
+            function star5(starid) {
+              src = "img/";
+              this.star_on_left = src + "star.png";
+              this.star_off_left = src + "starBack.png";
+              this.star_on_right = src + "star.png";
+              this.star_off_right = src + "starBack.png";
+              this.id = starid;
+              this.point = 0;
+
+              this.initial = starInitial;
+              this.redraw = starRedraw;
+              this.attach = starAttach;
+              this.deattach = starDeAttach;
+              this.doall = starDoall;
+            }
+
+            function starDoall(point) {
+              this.initial();
+              this.attach();
+              this.redraw(point);
+            }
+
+            function starInitial() {
+              var html = "<div style='float:left'>" +
+                "<img class='zt-star-size'  id='star" + this.id + "_1' point='1' src='" + this.star_off_right + "'>&nbsp;";
+              html += "<img class='zt-star-size' id='star" + this.id + "_2' point='2' src='" + this.star_off_right + "'>&nbsp;";
+              html += "<img class='zt-star-size' id='star" + this.id + "_3' point='3' src='" + this.star_off_right + "'>&nbsp;";
+              html += "<img class='zt-star-size' id='star" + this.id + "_4' point='4' src='" + this.star_off_right + "'>&nbsp;";
+              html += "<img class='zt-star-size' id='star" + this.id + "_5' point='5' src='" + this.star_off_right + "'>" + "</div>";
+              //document.write(html);
+              document.getElementById("mystarselect").innerHTML = html;
+            }
+
+            function starAttach() {
+              for (var i = 1; i < 6; i++) {
+                document.getElementById("star" + this.id + "_" + i).style.cursor = "pointer";
+                document.getElementById("star" + this.id + "_" + i).onmouseover = moveStarPoint;
+                document.getElementById("star" + this.id + "_" + i).onmouseout = outStarPoint;
+                document.getElementById("star" + this.id + "_" + i).starid = this.id;
+                document.getElementById("star" + this.id + "_" + i).onclick = setStarPoint;
+              }
+            }
+
+            function starDeAttach() {
+              for (var i = 1; i < 6; i++) {
+                document.getElementById("star" + this.id + "_" + i).style.cursor = "default";
+                document.getElementById("star" + this.id + "_" + i).onmouseover = null;
+                document.getElementById("star" + this.id + "_" + i).onmouseout = null;
+                document.getElementById("star" + this.id + "_" + i).onclick = null;
+              }
+            }
+
+            function starRedraw(point) {
+              for (var i = 1; i < 6; i++) {
+                if (i <= point)
+                  if (parseInt(i / 2) * 2 == i)
+                    document.getElementById("star" + this.id + "_" + i).src = this.star_on_right;
+                  else
+                    document.getElementById("star" + this.id + "_" + i).src = this.star_on_left;
+                else if (parseInt(i / 2) * 2 == i)
+                  document.getElementById("star" + this.id + "_" + i).src = this.star_off_right;
+                else
+                  document.getElementById("star" + this.id + "_" + i).src = this.star_off_left;
+              }
+            }
+
+            function moveStarPoint(evt) {
+              var pstar = evt ? evt.target : event.toElement;
+              var point = pstar.getAttribute("point");
+              var starobj = new star5(pstar.starid);
+              starobj.redraw(point);
+            }
+
+            function outStarPoint(evt) {
+              var pstar = evt ? evt.target : event.srcElement;
+              var starobj = new star5(pstar.starid);
+              starobj.redraw(0);
+            }
+
+            function setStarPoint(evt) {
+              var pstar = evt ? evt.target : event.srcElement;
+              var starobj = new star5(pstar.starid);
+              starobj.deattach();
+              var n = pstar.getAttribute("point");
+              console.log("选择的等级:" + n);
+              scope.level = n;
+              starobj.doall(n);
+              $rootScope.pointStar = n;
+              console.log($rootScope.pointStar)
+            }
+
+            var star = new star5("point");
+            star.doall(5);
+          }
+        };
   });
 
