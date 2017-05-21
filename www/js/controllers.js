@@ -1,8 +1,5 @@
 angular.module('CtrlModule', ['ServiceModule','ionic'])
   .controller('LeftCtrl',function($scope,$location,localstorage){
-    //		console.log("you")
-
-    $scope.abs = '1231231231';
     $scope.index = function(){
       $location.url('/tab/homepage')
     };
@@ -19,21 +16,22 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       $location.url('/mess')
     };
     $scope.settingData = [];
-    if( localstorage.getObject('ecjtu_auth').username != undefined ){
-      console.log(localstorage.getObject('ecjtu_auth'));
-      var userInfos = localstorage.getObject('ecjtu_auth');
-      $scope.settingData.push({
-        settingUser: userInfos.username
-      });
-      console.log( $scope.settingData);
-      $scope.settingFn =  $scope.settingData;
-    }else{
-      $scope.settingData.push({
-        settingUser: '您未登录请登录'
-      });
-      console.log($scope.settingData);
-      $scope.settingFn =  $scope.settingData;
-    }
+    console.log(localstorage.getObject('ecjtu_auth').username);
+      if( localstorage.getObject('ecjtu_auth').username != 'undefined' ){
+          console.log(localstorage.getObject('ecjtu_auth'));
+          var userInfos = localstorage.getObject('ecjtu_auth');
+          $scope.settingData.push({
+            settingUser: userInfos.username
+          });
+          console.log( $scope.settingData);
+          $scope.settingFn =  $scope.settingData;
+      }else{
+          $scope.settingData.push({
+            settingUser: '您未登录请登录'
+          });
+          console.log($scope.settingData);
+          $scope.settingFn =  $scope.settingData;
+      }
 
   })
 
@@ -70,7 +68,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       });
   })
 
-  .controller('commentCtrl',function($scope,$http,$location,localstorage){
+  .controller('commentCtrl',function($scope,$http,$location,localstorage,host){
     $scope.shopPlace = function (num) {
       var tempplace = '';
       switch (num)
@@ -107,13 +105,13 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     console.log(localstorage.getObject('ecjtu_auth').uid);
     $http({
       method: 'POST',
-      url: 'http://localhost:8198/comment',
+      url: host.localNet+':8198/comment',
       headers:{
         'Content-Type' : 'application/x-www-form-urlencoded'
       },
       data:param
     }).then(function successCallback(res) {
-      var tempCommentData = {};
+      var tempCommentData = { };
       console.log(res);
       tempCommentData = res.data;
       for(var i = 0;i<tempCommentData.length;i++){
@@ -135,7 +133,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
   .controller('settingCtrl',function($scope,localstorage,$location){
       // $scope.settingFn = setting.settingInit();
     console.log(localstorage.getObject('ecjtu_auth').username);
-      if(localstorage.getObject('ecjtu_auth').username != undefined){
+      if(localstorage.getObject('ecjtu_auth').username != 'undefined'){
          console.log(localstorage.getObject('ecjtu_auth'));
          var userInfos = localstorage.getObject('ecjtu_auth'),
              settingData = [];
@@ -156,41 +154,74 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
     })
 
-  .controller('detailCtrl', function($scope,$http,localstorage) {
+  .controller('detailCtrl', function($scope,$http,localstorage,host) {
       console.log('detailCtrl');
       $scope.detailData = [];
+      var removeItem = function (arr) {
+        var ret = [],rnum = [];
+        for (var i = 0, j = arr.length; i < j; i++) {
+          if (ret.indexOf(arr[i]) === -1) {
+            ret.push(arr[i]);
+            rnum.push(i);
+          }
+        }
+        return {
+          'retdid': ret,
+          'did':rnum
+        }
+      };
+
       var userid = localstorage.getObject('ecjtu_auth').uid,
       param = {'userid':userid};
       $http({
         method:'POST',
-        url:'http://localhost:8198/getDetaillist',
+        url:host.localNet+':8198/getDetaillist',
         headers:{
           'Content-Type' : 'application/x-www-form-urlencoded'
         },
         data:param
       }).then(function success(res) {
         console.log(res.data);
-        for(var i = 0;i<res.data.length;i++){
-          $scope.detailData.push({
-              'detailImg':res.data[i].images,
-              'detailName':res.data[i].g_nickname,
-              'detailgetCode':res.data[i].getcode,
-              'detailprice':res.data[i].oprice
-          })
+        var tempArr = [];
+        for(var j = 0;j < res.data.length;j++){
+           tempArr.push(res.data[j].did);
         }
+        console.log(tempArr);
+        console.log(removeItem(tempArr).did);
+
+        // for(var i = 0;i<res.data.length;i++){
+        //   $scope.detailData.push({
+        //       'detailImg':res.data[i].images,
+        //       'detailName':res.data[i].g_nickname,
+        //       'detailgetCode':res.data[i].getcode,
+        //       'detailprice':res.data[i].oprice
+        //   })
+        // }
+
+            for (var j = 0 ; j < removeItem(tempArr).did.length; j++){
+              var temp = removeItem(tempArr).did[j];
+              console.log(temp);
+              $scope.detailData.push({
+                'detailImg':res.data[temp].images,
+                'detailName':res.data[temp].g_nickname,
+                'detailgetCode':res.data[temp].getcode,
+                'detailprice':res.data[temp].oprice
+              })
+            }
+
         console.log( $scope.detailData);
       });
 
   })
 
-  .controller('searchCtrl', function($scope,$ionicPopup,$http,$location) {
+  .controller('searchCtrl', function($scope,$ionicPopup,$http,$location,host) {
       console.log('searchCtrl');
       var searchgid = '';
       $scope.getData = false;
       $scope.searchgreens = function (greensDetails) {
           $http({
             method:'POST',
-            url:'http://localhost:8198/greensDetailsName',
+            url:host.localNet+':8198/greensDetailsName',
             headers:{
               'Content-Type' : 'application/x-www-form-urlencoded'
             },
@@ -235,7 +266,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       };//搜索函数
   })
 
-  .controller('registerCtrl',['$scope','$http','$timeout',function($scope,$http,$timeout) {
+  .controller('registerCtrl',['$scope','$http','$timeout',function($scope,$http,$timeout,host) {
       $scope.registerStaute = false;
       $scope.regisoterBingo = false;
       $scope.regisoterError = false;
@@ -251,7 +282,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
                       };
           $http({
             method:'POST',
-            url:'http://localhost:8197/insertUserinfo',
+            url:host.localNet+':8197/insertUserinfo',
             headers:{
               'Content-Type' : 'application/x-www-form-urlencoded'
             },
@@ -281,7 +312,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       }
     }])
 
-  .controller('loginCtrl',['$scope','$http','$timeout','$location','localstorage',function($scope, $http,$timeout,$location,localstorage){
+  .controller('loginCtrl',function($scope, $http,$timeout,$location,localstorage,host){
       // $scope.formModel = {};
       $scope.loginBingo = false;
       $scope.loginError = false;
@@ -294,7 +325,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
           };
           $http({
             method:'POST',
-            url:'http://localhost:8197/selectUserinfo',
+            url:host.localNet+':8197/selectUserinfo',
             headers:{
               'Content-Type' : 'application/x-www-form-urlencoded'
             },
@@ -336,7 +367,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
           $scope.submitted = true;
         }
       }
-    }])
+    })
 
   .controller('homePageCtrl',function($scope,$location,homePage){
     $scope.index = function(){
@@ -365,17 +396,18 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     console.log(mess)
   })
 
-  .controller('evaluateCtrl',function ($scope,$rootScope,$http,$timeout,localstorage) {
+  .controller('evaluateCtrl',function ($scope,$rootScope,$http,$timeout,$location,$ionicPopup,localstorage,host) {
     $scope.greensInfos = localstorage.getObject('evaluate');
     console.log($scope.greensInfos);
     var evauid =  localstorage.getObject('ecjtu_auth').uid;
+    // console.log(new Date().getTime());
     $scope.onSubmit = function(){
       console.log($scope.evaComment);
-
       console.log($rootScope.pointStar);
       console.log(evauid);
       console.log($scope.greensInfos.gid);
-      var evaDate = new Date();
+      // var evaDate = new Date();
+
       if($scope.evaComment == undefined){
         $scope.evaComment = '没有评价信息';
         console.log($scope.evaComment);
@@ -385,24 +417,31 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
           'cgrade' : $rootScope.pointStar,
           'uid' : evauid,
           'gid': $scope.greensInfos.gid,
-          'ctime':evaDate.getTime()
+          'ctime':new Date().getTime()
       };
       $http({
         method: 'POST',
-        url: 'http://localhost:8198/evaluate',
+        url: host.localNet+':8198/evaluate',
         headers:{
           'Content-Type' : 'application/x-www-form-urlencoded'
         },
         data:param
       }).then(function successCallback(res) {
         console.log(res);
+        var alertPopup = $ionicPopup.alert({
+          title: '评价成功',
+          template: '将跳转到主页'
+        });
+        alertPopup.then(function(res) {
+          $location.url('/tab/homepage');
+        });
       }, function errorCallback(response) {
 
       })
     }
   })
 
-  .controller('shopCtrl',['$http','$scope','$location','$stateParams',function($http,$scope,$location,$stateParams){
+  .controller('shopCtrl',function($http,$scope,$location,$stateParams,host){
     // $rootScope.showHeader = false;
     //获取url参数:id
     console.log($stateParams.id);
@@ -421,7 +460,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       ];
       $http({
         method: 'POST',
-        url: 'http://localhost:8198/shopData',
+        url: host.localNet+':8198/shopData',
         headers:{
           'Content-Type' : 'application/x-www-form-urlencoded'
         },
@@ -453,9 +492,9 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     // };
     // $scope.test();
     $scope.shopFn = $scope.shopData;
-  }])
+  })
 
-  .controller('greensCtrl',function($scope,$location,$http,$stateParams){
+  .controller('greensCtrl',function($scope,$location,$http,$stateParams,host){
     // console.log(greens.greensInit());
     // $scope.greensFn = greens.greensInit();
     var greensDataParam = {
@@ -472,7 +511,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     ];
     $http({
       method: 'POST',
-      url: 'http://localhost:8198/greensData',
+      url: host.localNet+':8198/greensData',
       data: greensDataParam,
       headers:{
         'Content-Type' : 'application/x-www-form-urlencoded'
@@ -499,7 +538,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
 
   })
 
-  .controller('detailsCtrl',function($scope,$location,$http,$stateParams,$ionicPopup,localstorage){
+  .controller('detailsCtrl',function($scope,$location,$http,$stateParams,$ionicPopup,localstorage,host){
     var greensDetailsDataParam = {
       ParamId: $stateParams.id
     },
@@ -509,7 +548,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
     $scope.yzm = '';
     $http({
       method: 'POST',
-      url: 'http://localhost:8198/greensDetailsData',
+      url: host.localNet+':8198/greensDetailsData',
       data: greensDetailsDataParam,
       headers:{
         'Content-Type' : 'application/x-www-form-urlencoded'
@@ -549,7 +588,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
         'buydate':buyDate.getTime()
       };
       $http({
-        url:'http://localhost:8198/greensbuy',
+        url:host.localNet+':8198/greensbuy',
         method:'POST',
         data: buyParam,
         headers:{
@@ -568,7 +607,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
         }).then(function () {
           if (buydid != 0){
             $http({
-              url:'http://localhost:8198/greensbuydata',
+              url:host.localNet+':8198/greensbuydata',
               method:'POST',
               data:{
                 'buydid':buydid,
@@ -614,9 +653,6 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
             }
           });
         })
-
-
-
     }
   })
 
@@ -636,9 +672,7 @@ angular.module('CtrlModule', ['ServiceModule','ionic'])
       }
     }
   })
-  /**
-   * 评价星星选择控件
-   */
+  //评价星星选择控件
   .directive("mystarselect", function ($rootScope) {
       $rootScope.pointStar = 0
       return {

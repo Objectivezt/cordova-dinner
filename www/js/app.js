@@ -15,21 +15,20 @@ angular.module('myApp', ['ionic','CtrlModule'])
     }
   });
 })
-
 .config(function($stateProvider, $urlRouterProvider,$ionicConfigProvider) {
   // 全平台兼容
-    $ionicConfigProvider.platform.ios.tabs.style('standard');
-    $ionicConfigProvider.platform.ios.tabs.position('bottom');
-    $ionicConfigProvider.platform.android.tabs.style('standard');
-    $ionicConfigProvider.platform.android.tabs.position('standard');
-    $ionicConfigProvider.platform.ios.navBar.alignTitle('center');
-    $ionicConfigProvider.platform.android.navBar.alignTitle('left');
-    $ionicConfigProvider.platform.ios.backButton.previousTitleText(' ').icon('ion-ios-arrow-thin-left');
-    $ionicConfigProvider.platform.android.backButton.previousTitleText(' ').icon('ion-android-arrow-back');
-    $ionicConfigProvider.platform.ios.views.transition('ios');
-    $ionicConfigProvider.platform.android.views.transition('android');
+  $ionicConfigProvider.platform.ios.tabs.style('standard');
+  $ionicConfigProvider.platform.ios.tabs.position('bottom');
+  $ionicConfigProvider.platform.android.tabs.style('standard');
+  $ionicConfigProvider.platform.android.tabs.position('standard');
+  $ionicConfigProvider.platform.ios.navBar.alignTitle('center');
+  $ionicConfigProvider.platform.android.navBar.alignTitle('left');
+  $ionicConfigProvider.platform.ios.backButton.previousTitleText(' ').icon('ion-ios-arrow-thin-left');
+  $ionicConfigProvider.platform.android.backButton.previousTitleText(' ').icon('ion-android-arrow-back');
+  $ionicConfigProvider.platform.ios.views.transition('ios');
+  $ionicConfigProvider.platform.android.views.transition('android');
   $stateProvider
-   .state('tab', {
+  .state('tab', {
     url: '/tab',
     views:{
       'index_nav_view':{
@@ -38,7 +37,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
         }
     }
   })
-
   .state('tab.homePage', {
     url: '/homePage',
     views: {
@@ -48,36 +46,16 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     }
   })
-
-  // .state('tab.order', {
-  //     url: '/order',
-  //     views: {
-  //       'tab-order': {
-  //         templateUrl: 'templates/tab-order.html',
-  //         controller: 'orderCtrl'
-  //       }
-  //     }
-  //   })
-    .state('tab.order', {
-      cache: false,
-      url: '/order',
-      views: {
-        'tab-order': {
-          templateUrl: 'templates/mess.html',
-          controller: 'messCtrl'
-        }
+  .state('tab.order', {
+    cache: false,
+    url: '/order',
+    views: {
+      'tab-order': {
+        templateUrl: 'templates/mess.html',
+        controller: 'messCtrl'
       }
-    })
-    // .state('mess', {
-    //   cache: false,
-    //   url: '/mess',
-    //   views: {
-    //     'index_nav_view': {
-    //       templateUrl: 'templates/mess.html',
-    //       controller: 'messCtrl'
-    //     }
-    //   }
-    // })
+    }
+  })
   .state('tab.detail', {
     url: '/detail',
     views: {
@@ -87,8 +65,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     }
   })
-
-
   .state('tab.comment', {
     url: '/comment',
     views: {
@@ -98,18 +74,15 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     }
   })
-    .state('tab.setting', {
-      url: '/setting',
-      views: {
-        'tab-setting': {
-          templateUrl: 'templates/tab-setting.html',
-          controller: 'settingCtrl'
-        }
+  .state('tab.setting', {
+    url: '/setting',
+    views: {
+      'tab-setting': {
+        templateUrl: 'templates/tab-setting.html',
+        controller: 'settingCtrl'
       }
-    })
-
-
-
+    }
+  })
   .state('login',{
     url:'/login',
     views:{
@@ -119,7 +92,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     }
   })
-
   .state('register',{
     url:'/register',
     views:{
@@ -129,8 +101,6 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     }
   })
-
-
   .state('search', {
     url: '/search',
     views: {
@@ -140,68 +110,44 @@ angular.module('myApp', ['ionic','CtrlModule'])
       }
     }
   })
-
-  // .state('mess', {
-  //     cache: false,
-  //     url: '/mess',
-  //     views: {
-  //       'index_nav_view': {
-  //         templateUrl: 'templates/mess.html',
-  //         controller: 'messCtrl'
-  //       }
-  //     }
-  //  })
-
-    .state('shop', {
-      cache: false,
-      url: '/shop/:id',
-      views: {
-        'index_nav_view': {
-          templateUrl: 'templates/shop.html',
-          controller: 'shopCtrl'
-        }
+  .state('shop', {
+    cache: false,
+    url: '/shop/:id',
+    views: {
+      'index_nav_view': {
+        templateUrl: 'templates/shop.html',
+        controller: 'shopCtrl'
       }
-    })
-
-    // .state('AnalysisDetails',{
-    //   url:'/AnalysisDetails/:id',
-    //   cache: false,
-    //   templateUrl:'template/AnalysisDetails.html',
-    //   controller:'AnalysisDetailsCtrl'
-    // })
-
-
-    .state('greens', {
-      url: '/greens/:id',
-      views: {
-        'index_nav_view': {
-          templateUrl: 'templates/greens.html',
-          cache: false,
-          controller: 'greensCtrl'
-        }
+    }
+  })
+  .state('greens', {
+    url: '/greens/:id',
+    views: {
+      'index_nav_view': {
+        templateUrl: 'templates/greens.html',
+        cache: false,
+        controller: 'greensCtrl'
       }
-    })
-
-    .state('details', {
-      url: '/details/:id',
-      views: {
-        'index_nav_view': {
-          templateUrl: 'templates/details.html',
-          controller: 'detailsCtrl'
-        }
+    }
+  })
+  .state('details', {
+    url: '/details/:id',
+    views: {
+      'index_nav_view': {
+        templateUrl: 'templates/details.html',
+        controller: 'detailsCtrl'
       }
-    })
-
-    .state('evaluate', {
-      url: '/evaluate/:id',
-      views: {
-        'index_nav_view': {
-          templateUrl: 'templates/evaluate.html',
-          controller: 'evaluateCtrl'
-        }
+    }
+  })
+  .state('evaluate', {
+    url: '/evaluate/:id',
+    views: {
+      'index_nav_view': {
+        templateUrl: 'templates/evaluate.html',
+        controller: 'evaluateCtrl'
       }
-    });
-
+    }
+  });
   $ionicConfigProvider.views.maxCache(0);
   $urlRouterProvider.otherwise('/tab/homePage')
 });

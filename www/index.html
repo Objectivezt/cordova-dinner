@@ -3,6 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'self' 'unsafe-inline' data: gap: 'unsafe-eval'; style-src * 'self' 'unsafe-inline'; connect-src * ; script-src * 'self' 'unsafe-inline'; media-src *">
     <title>ecjtuDinner</title>
     <link href="https://fonts.googleapis.com/css?family=RobotoDraft:400,500,700,400italic" rel="stylesheet">
     <!--<link rel="manifest" href="manifest.json">-->
@@ -61,9 +62,9 @@
                     <ion-item menu-close ng-click="search()"><!-- href="#/search" -->
                         我的搜索
                     </ion-item>
-                    <ion-item menu-close ng-click="mess()"><!-- href="#/browse" -->
-                        食堂
-                    </ion-item>
+                    <!--<ion-item menu-close ng-click="mess()">&lt;!&ndash; href="#/browse" &ndash;&gt;-->
+                        <!--食堂-->
+                    <!--</ion-item>-->
                 </ion-list>
             </ion-content>
         </ion-side-menu>

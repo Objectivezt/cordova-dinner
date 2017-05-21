@@ -1,40 +1,13 @@
 <ion-view view-title="我的订单">
-  <ion-content class="padding">
+  <ion-content class="padding zt-detailsilder">
     <ion-slide-box show-pager="false">
-      <ion-slide ng-repeat="data in detailData ">
-        <div class="item item-image" style="padding: 50px;background-color: rgb(47,46,47);width: 100%;height:450px">
+      <ion-slide  ng-repeat="data in detailData ">
+        <div class="item item-image" style="padding: 30px;height:100%;background-color: rgb(47,46,47);width: 100%;">
           <h3 class="tem" style="color: #fff;font-size:1.8rem;"> 单价：{{data.detailprice}}￥</h3>
-          <img height="250px" width="250px" src="{{data.detailImg}}">
+          <img style="height: 70%; width: 70%" src="{{data.detailImg}}">
           <h3 class="tem " style="color: #fff;font-size:1.8rem;">{{data.detailName}}</h3>
           <h2 class="text-center" style="color: #fff;font-size:1rem;">取货码:{{data.detailgetCode}}</h2>
         </div>
-        <!--<div class="item item-body">-->
-          <!--<p  class="text-center" style="font-size:14px;">{{today}}</p>-->
-          <!--<p class="ion-waterdrop"> 湿度：{{city.today.wet}} %</p>-->
-          <!--<p class="ion-flag"> 风速：{{city.today.air}} 米/秒</p>-->
-        <!--</div>-->
-        <!--<div class=" item item-image" style="padding: 10px 0 10px 15px;">-->
-          <!--<div style="float: left; width: 60px; margin-left: 4px;">-->
-            <!--<p>{{currentDay[0]}}</p>-->
-            <!--<div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[0]}}.png" alt=""></div>-->
-          <!--</div>-->
-          <!--<div style="float: left; width: 60px;">-->
-            <!--<p>{{currentDay[1]}}</p>-->
-            <!--<div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[1]}}.png" alt=""></div>-->
-          <!--</div>-->
-          <!--<div style="float: left; width: 60px;">-->
-            <!--<p>{{currentDay[2]}}</p>-->
-            <!--<div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[2]}}.png" alt=""></div>-->
-          <!--</div>-->
-          <!--<div style="float: left; width: 60px;">-->
-            <!--<p>{{currentDay[3]}}</p>-->
-            <!--<div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[3]}}.png" alt=""></div>-->
-          <!--</div>-->
-          <!--<div style="float: left; width: 60px;">-->
-            <!--<p>{{currentDay[4]}}</p>-->
-            <!--<div style="margin-left: 5px; margin-top: 5px;"><img src="img\{{city.current[4]}}.png" alt='' /></div>-->
-          <!--</div>-->
-        <!--</div>-->
       </ion-slide>
     </ion-slide-box>
   </ion-content>
